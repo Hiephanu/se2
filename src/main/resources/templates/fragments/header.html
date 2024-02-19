@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/styles/fragments/header.css}">
+    <script src="https://kit.fontawesome.com/937fd9d93a.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div th:fragment="header" class="header">
+    <nav class="header__nav">
+      <a href="/">
+        <div>
+            <i class="fa-solid fa-house"></i>
+        </div>
+      </a>
+        <a href="/search">
+            <div>
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </a>
+        <a href="/heart">
+            <div>
+                <i class="fa-solid fa-heart"></i>
+            </div>
+        </a>
+        <a href="/user">
+            <div>
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </a>
+        <h1>Home</h1>
+    </nav>
+  </div>
+</body>
+</html>
