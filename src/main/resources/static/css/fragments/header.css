@@ -1,0 +1,43 @@
+.header__wrapper{
+    position:sticky;
+    background-color:white;
+    width:100%;
+    top:0;
+    left:0;
+    margin-bottom:20px;
+}
+.header{
+    display:flex;
+    justify-content:space-around;
+    width:100%;
+}
+.header__logo{
+    width:40px;
+    height:40px;
+    border-radius:20px;
+    margin-top:10px;
+}
+.header__nav{
+    width:35%;
+    display:flex;
+    margin-top:10px;
+    font-size:25px;
+    justify-content:space-around;
+    text-decoration:none;
+}
+.header__nav__item{
+    padding:10px;
+    border-radius:20px;
+}
+a{
+    color:#cccccc;
+}
+a:hover{
+    color:black;
+}
+.header__menu{
+    margin-top:15px;
+}
+.header__active{
+    color:black;
+}

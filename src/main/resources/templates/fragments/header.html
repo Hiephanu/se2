@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/styles/fragments/header.css}">]
 </head>
 <body>
-  <div th:fragment="header" class="header">
-    <nav class="header__nav">
-      <a href="/">
-        <div>
-            <i class="fa-solid fa-house"></i>
+  <div th:fragment="header" class="header__wrapper">
+        <div class="header">
+            <div class="">
+                <img src="https://inkythuatso.com/uploads/images/2021/11/logo-twitter-inkythuatso-2-01-27-10-02-43.jpg" alt="Logo" class="header__logo">
+            </div>
+            <nav class="header__nav">
+                <a href="/" class="header__active header__nav__item">
+                    <div>
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                </a>
+                <a href="/search" class="header__nav__item">
+                    <div>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </a>
+                <a href="/heart" class="header__nav__item">
+                    <div>
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                </a>
+                <a href="/user" class="header__nav__item">
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </a>
+            </nav>
+            <div class="header__menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
         </div>
-      </a>
-        <a href="/search">
-            <div>
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-        </a>
-        <a href="/heart">
-            <div>
-                <i class="fa-solid fa-heart"></i>
-            </div>
-        </a>
-        <a href="/user">
-            <div>
-                <i class="fa-solid fa-user"></i>
-            </div>
-        </a>
-        <h1>Home</h1>
-    </nav>
   </div>
 </body>
 </html>
