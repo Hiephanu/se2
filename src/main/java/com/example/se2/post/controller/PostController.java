@@ -14,11 +14,11 @@ public class PostController {
     @RequestMapping("/")
     public String test(Model model){
         model.addAttribute("message","Hello how are you?");
-        return "Home";
+        return "index";
     }
     @RequestMapping("/about")
     public String About(){
-        return "About";
+        return "bout";
     }
 
 }
