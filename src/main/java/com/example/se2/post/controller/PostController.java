@@ -6,6 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @AllArgsConstructor
 public class PostController {
@@ -20,4 +25,5 @@ public class PostController {
     public String following(Model model){
         return "following";
     }
+
 }
