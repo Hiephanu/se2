@@ -26,4 +26,8 @@ public class PostController {
         return "following";
     }
 
+    @RequestMapping("/abc")
+    public String abc() {
+        return "abc";
+    }
 }
