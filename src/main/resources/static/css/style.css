@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background-color: rgb(16, 16, 16);
+}
+.container {
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-signin {
+    padding: 5px 20px 10px 20px;
+    background-color: rgba(149, 152, 158,0.15);
+    border-radius:15px;
+}
+.form-signin h2 {
+    color: rgb(243, 245, 247);
+    text-align:center;
+}
+.form-signin .message-login p{
+    background-color: pink;
+    color: red;
+    padding:15px;
+    margin:0px 0px 10px 0px;
+    border-radius:10px;
+}
+.form-signin .message-logout p{
+    background-color: #88d88b;
+    color: #2a432b;
+    padding:15px 0px;
+    margin:0px 0px 10px 0px;
+    border-radius:10px;
+}
+.form-signin input {
+    padding: 20px 0px 20px 20px;
+    margin: 4px 0px;
+    width: 100%;
+    border-radius: 14px;
+    border: none;
+    background-color: rgb(30 30 30);
+    color: rgb(243, 245, 247);
+}
+.form-signin button {
+    width: 100%;
+    padding: 20px 0px;
+    background-color: rgba(255, 255, 255, .9);
+    color: #242526;
+    border-radius: 14px;
+    border: none;
+    font-weight: bold;
+    font-size:14px;
+}
+.form-signin button:hover {
+    cursor: pointer;
+}
+::placeholder {
+    color: rgba(255, 255, 255, .7);
+    font-size: 14px;
+}
+.form-signin p {
+    color: rgba(255, 255, 255, .7);
+    text-align:center;
+}
+.form-signin a {
+    text-decoration: none;
+    color:  rgba(255, 255, 255, .7);
+    font-size:16px;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+
+.register {
+    background-image: url('/img/bg-login.png');
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register-form {
+    padding: 10px 30px 5px 30px;
+    background-color: rgba(149, 152, 158,0.15);
+    border-radius:15px;
+}
+.register-form h2 {
+    color: rgb(243, 245, 247);
+    text-align:center;
+    margin-bottom:20px;
+}
+.register-form input {
+    display:inline-block;
+    padding: 18px;
+    margin: 5px 0px;
+    width: 100%;
+    border-radius: 14px;
+    border: none;
+    background-color: rgb(30 30 30);
+    color: rgb(243, 245, 247);
+}
+.register-form label {
+    color: rgb(243, 245, 247);
+    align-self:initial;
+}
+.register-form button {
+    width: 100%;
+    padding: 18px;
+    background-color: rgba(255, 255, 255, .9);
+    color: #242526;
+    border-radius: 14px;
+    border: none;
+    font-weight: bold;
+    font-size:14px;
+}
+.register-form button:hover {
+    cursor:pointer;
+}
+.register-form p {
+    color: rgba(255, 255, 255, .7);
+    text-align:center;
+}
+.register-form a {
+    text-decoration: none;
+    color:  rgba(255, 255, 255, .7);
+    font-size:16px;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+.register-form .message-register{
+    background-color: #88d88b;
+    color: #2a432b;
+    padding:15px;
+    margin:0px 0px 10px 0px;
+    border-radius:10px;
+    text-align: center;
+}

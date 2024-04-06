@@ -1,3 +1,6 @@
+body {
+    margin:0;
+}
 .swap{
     position:fixed;
     cursor:pointer;
@@ -15,8 +18,11 @@
     justify-content:center;
 }
 .post{
-    width:45%;
+    width:50%;
     margin-top:30px;
+    background-color:rgb(246, 246, 246);
+    padding: 20px;
+    border-radius: 30px;
 }
 .post__header{
     width:100%;
@@ -57,4 +63,34 @@
     color:#bababa;
     gap:8px;
     align-items: center;
+}
+.hello_user {
+    text-align:center;
+}
+.hello_user h1 {
+    margin-top:0;
+}
+.hello_user span {
+    color: #4285F4;
+}
+.logout button {
+    position:fixed;
+    top:20px;
+    right: 9%;
+    cursor:pointer;
+    background-color:white;
+    padding:10px 15px;
+    border:none;
+    border-radius:20px;
+    box-shadow: 1px 1px 6px 6px rgba(0, 0, 0, 0.05);
+    transition: 0.1s;
+}
+.hello_user button:hover {
+    background-color:#e6e6e6;
+}
+.hello_user .question {
+    width: 75%;
+    padding: 10px 15px;
+    border:1px solid #cccccc;
+    border-radius:20px;
 }
