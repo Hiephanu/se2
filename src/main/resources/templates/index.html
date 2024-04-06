@@ -11,9 +11,22 @@
 <body>
     <div th:replace="~{fragments/header :: header}"></div>
     <div class="container">
+        <div class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Đăng xuất nè !</button>
+            </form>
+        </div>
         <div class="swap">
             <p>Dành cho bạn</p>
             <i class="fa-solid fa-shuffle"></i>
+        </div>
+        <div class="post__container">
+            <div class="post">
+                <div class="hello_user">
+                    <h1>Em chào đại ca <span>[[${user.getFullName()}]]</span> ạ !</h1>
+                    <input th:type="text" class="question" placeholder="Ngày hôm nay của đại ca thế nào ?">
+                </div>
+            </div>
         </div>
         <div class="post__container">
             <div class="post">
