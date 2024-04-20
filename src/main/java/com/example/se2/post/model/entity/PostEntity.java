@@ -1,5 +1,6 @@
 package com.example.se2.post.model.entity;
 
+import com.example.se2.user.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,11 @@ public class PostEntity {
     private Long postId;
     @Column(name = "content")
     private String content;
-    @Column(name = "imageId")
-    private Long imageId;
+    @Column(name = "image")
+    private String image;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
     @Column(name = "createdAt")
     private LocalDate createdAt;
-    @Column(name = "heartNumber")
-    private int heartNumber;
-    @Column(name = "commentNumber")
-    private int commentNumber;
 }

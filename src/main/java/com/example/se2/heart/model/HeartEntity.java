@@ -21,6 +21,4 @@ public class HeartEntity {
     private Long userId;
     @Column(name = "postId")
     private Long postId;
-    @Column(name = "createdAt")
-    private LocalDate createdAt;
 }

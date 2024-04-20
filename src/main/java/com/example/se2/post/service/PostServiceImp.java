@@ -22,22 +22,4 @@ public class PostServiceImp implements PostService {
         Page<PostEntity> postForYou = postRepository.findAll(pageRequest);
         return postForYou.getContent();
     }
-
-    @Override
-    public PostEntity updateNumberCommentPost(long postId) {
-        postRepository.findById(postId).ifPresent(postEntity -> postEntity.setHeartNumber(postEntity.getHeartNumber() + 1));
-        return postRepository.findById(postId).orElse(null);
-    }
-
-    @Override
-    public PostEntity unHeartUpdate(long postId) {
-        postRepository.findById(postId).ifPresent(postEntity -> postEntity.setHeartNumber(postEntity.getHeartNumber() - 1));
-        return postRepository.findById(postId).orElse(null);
-    }
-
-    @Override
-    public PostEntity updateNumberHeartPost(long postId) {
-        postRepository.findById(postId).ifPresent(postEntity -> postEntity.setCommentNumber(postEntity.getCommentNumber() + 1));
-        return postRepository.findById(postId).orElse(null);
-    }
 }

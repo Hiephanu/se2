@@ -17,8 +17,11 @@ body {
     display:flex;
     justify-content:center;
 }
+.posts{
+    width: 50%;
+}
 .post{
-    width:50%;
+    width:100%;
     margin-top:30px;
     background-color:rgb(246, 246, 246);
     padding: 20px;
@@ -93,4 +96,39 @@ body {
     padding: 10px 15px;
     border:1px solid #cccccc;
     border-radius:20px;
+}
+.fa-heart {
+    cursor: pointer;
+}
+.heart_active {
+    color: red;
+}
+.fa-comment {
+    cursor: pointer;
+}
+.reply__wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.reply {
+    width: 50%;
+    height: 80%;
+    padding: 30px;
+    border-radius: 20px;
+    margin-right: auto;
+    overflow: scroll;
+    background-color: white;
+}
+.close__scroll {
+    overflow: hidden;
+}
+.disable {
+    display: none;
 }

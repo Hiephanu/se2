@@ -41,3 +41,7 @@ a:hover{
 .header__active{
     color:black;
 }
+.nav_item {
+    width:15px;
+    height:15px
+}
