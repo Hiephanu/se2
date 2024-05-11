@@ -17,8 +17,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class CloudinaryController {
     private final CloudinaryService cloudinaryService;
-
-
     @PostMapping("/upload")
     public ResponseEntity<Map> uploadImage(@RequestParam("image") MultipartFile file){
         Map data = (Map) this.cloudinaryService.upload(file);

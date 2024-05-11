@@ -10,4 +10,5 @@ import java.util.List;
 public interface PostService {
     public List<PostEntity> getListPostForYou(int page,int size);
     public PostEntity savePost(SavePostRequestDto savePostRequestDto);
+    public PostEntity savePostEntity(PostEntity postEntity);
 }

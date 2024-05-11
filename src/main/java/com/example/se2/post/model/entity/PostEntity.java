@@ -25,5 +25,5 @@ public class PostEntity {
     @JoinColumn(name = "userId")
     private User user;
     @Column(name = "createdAt")
-    private LocalDate createdAt;
+    private LocalDate createdAt = LocalDate.now();
 }

@@ -2,6 +2,7 @@ package com.example.se2.post.service;
 
 import com.example.se2.Cloudinary.CloudinaryService;
 import com.example.se2.post.converter.ConvertPost;
+import com.example.se2.post.model.dto.PostDto;
 import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
 import com.example.se2.post.repository.PostRepository;
@@ -17,7 +18,6 @@ import java.util.List;
 public class PostServiceImp implements PostService {
     private final PostRepository postRepository;
     private final ConvertPost convertPost;
-
     private final CloudinaryService cloudinaryService;
 
     @Override
@@ -33,5 +33,9 @@ public class PostServiceImp implements PostService {
         Object url = cloudinaryService.upload(savePostRequestDto.getMultipartFile());
         postEntity.setImage(url.toString());
         return postRepository.save(convertPost.convertToPostEntity(savePostRequestDto));
+    }
+
+    public PostEntity savePostEntity(PostEntity postEntity) {
+        return postRepository.save(postEntity);
     }
 }
