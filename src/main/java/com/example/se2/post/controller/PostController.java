@@ -2,6 +2,7 @@ package com.example.se2.post.controller;
 
 import com.example.se2.Cloudinary.CloudinaryService;
 import com.example.se2.post.model.dto.PostDto;
+import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
 import com.example.se2.post.service.PostService;
 import com.sun.tools.jconsole.JConsoleContext;
@@ -34,13 +35,9 @@ public class PostController {
     PostService postService;
     
     @PostMapping("/post/create")
-    public String createPost(@ModelAttribute PostDto postDto, BindingResult result) {
+    public String createPost(@ModelAttribute SavePostRequestDto savePostRequestDto, BindingResult result) {
         if(!result.hasErrors()) {
-            Object imageUrl = cloudinaryService.upload(postDto.getMultipartFile());
-            PostEntity postEntity = new PostEntity();
-            postEntity.setContent(postDto.getContent());
-            postEntity.setImage(imageUrl.toString());
-            postService.savePostEntity(postEntity);
+            postService.savePost(savePostRequestDto);
             return "redirect:/";
         } else {
             return "";
@@ -51,14 +48,16 @@ public class PostController {
     public String forYou(Model model,  Principal principal){
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         List<PostEntity> posts = getPostService.getListPostForYou(0,5);
-        PostDto postDto = new PostDto();
+        SavePostRequestDto savePostRequestDto = new SavePostRequestDto();
         model.addAttribute("user", userDetails);
         model.addAttribute("posts", posts);
-        model.addAttribute("postDto", postDto);
+        model.addAttribute("savePostRequestDto", savePostRequestDto);
         return "index";
     }
-    @RequestMapping("/following")
+    @RequestMapping("/follow")
     public String following(Model model){
-        return "following";
+        List<PostEntity> posts=  getPostService.getListPostFollow(1, 0,5);
+        model.addAttribute("posts", posts);
+        return "follow";
     }
 }
