@@ -22,6 +22,17 @@ public class PostRestController {
       }
     }
 
+    @GetMapping("/{id}/follow")
+    public ResponseEntity<?> getPostByUserFollow(@PathVariable("id") long id,
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "5") int perPage) {
+        try {
+            System.out.println(id);
+            return  ResponseEntity.ok(postService.getListPostByUserId(id, page,perPage));
+        } catch (Exception e) {
+            return  ResponseEntity.status(500).body("Internal error");
+        }
+    }
     @PostMapping("")
     public ResponseEntity<?> savePost(@RequestBody SavePostRequestDto savePostRequestDto){
         return ResponseEntity.ok(postService.savePost(savePostRequestDto));

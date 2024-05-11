@@ -30,8 +30,10 @@ public class PostController {
         model.addAttribute("posts", posts);
         return "index";
     }
-    @RequestMapping("/following")
+    @RequestMapping("/follow")
     public String following(Model model){
-        return "following";
+        List<PostEntity> posts=  getPostService.getListPostFollow(1, 0,5);
+        model.addAttribute("posts", posts);
+        return "follow";
     }
 }
