@@ -105,7 +105,13 @@
                                 <p class="post__content__title" th:text="${post.content}"></p>
                                 <img th:src="${post.image}" alt="" class="post__content__image">
                             </div>
-                            <input type="text" placeholder="Reply this thread">
+                            <div class="comment-form-wrapper">
+                                <form class="comment-form" th:action="@{/comment/create}" th:object="${commentRequestDto}" method="post" id = {}>
+                                    <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
+                                    <input th:field="*{content}" type="text" id="content" class="comment-content"/>
+                                    <input type="submit" value="Submit">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,7 +218,6 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
-            console.log(post);
             if (index > skip) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
@@ -284,6 +289,36 @@
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
                 })
+            
+                const commentForm = post.querySelector(".comment-form")
+                const comment = commentForm.querySelector(".comment-content")
+
+                commentForm.addEventListener("submit", (event) => {
+                    event.preventDefault()
+                    const formData = new FormData(commentForm);
+
+                    formData.append("postId", postId)
+                    console.log(formData)
+                    fetch('/comment/create', {
+                    method: 'POST',
+                    body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Assuming the response is JSON
+                    })
+                    .then(data => {
+                        console.log('Comment saved:', data);
+                        // Do something with the response data if needed
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        // Handle errors
+                    });
+                })
+            
             }
         })
     }
@@ -329,6 +364,7 @@
             console.log(err)
         }
     }
+    
     handlePostAction(0)
 
 </script>

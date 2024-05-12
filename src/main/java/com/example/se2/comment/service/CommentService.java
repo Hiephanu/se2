@@ -8,7 +8,8 @@ import java.util.List;
 
 @Service
 public interface CommentService {
-    List<Comment> findAllCommentByPostId(long postId);
+//    List<Comment> findAllCommentByPostId(long postId);
     Comment saveComment(CommentRequestDto commentRequestDto);
-    List<Comment> findAllByCommentParentId(long commentId);
+    Comment saveComment(Comment comment);
+//    List<Comment> findAllByCommentParentId(long commentId);
 }

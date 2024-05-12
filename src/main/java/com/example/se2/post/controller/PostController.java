@@ -1,6 +1,7 @@
 package com.example.se2.post.controller;
 
 import com.example.se2.Cloudinary.CloudinaryService;
+import com.example.se2.comment.model.dto.CommentRequestDto;
 import com.example.se2.post.model.dto.PostDto;
 import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
@@ -49,9 +50,11 @@ public class PostController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         List<PostEntity> posts = getPostService.getListPostForYou(0,5);
         SavePostRequestDto savePostRequestDto = new SavePostRequestDto();
+        CommentRequestDto commentRequestDto = new CommentRequestDto();
         model.addAttribute("user", userDetails);
         model.addAttribute("posts", posts);
         model.addAttribute("savePostRequestDto", savePostRequestDto);
+        model.addAttribute("commentRequestDto", commentRequestDto);
         return "index";
     }
     @RequestMapping("/follow")
