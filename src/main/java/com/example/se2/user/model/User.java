@@ -8,7 +8,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String fullName;
     private String username;
     private String age;

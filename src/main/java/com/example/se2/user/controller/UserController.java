@@ -14,9 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
-
     private final SearchUserByFullNameService searchUserByFullName;
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) {
         try {
@@ -27,7 +25,6 @@ public class UserController {
             return ResponseEntity.internalServerError().body("Internal error");
         }
     }
-
     @GetMapping("/username/{name}")
     public ResponseEntity<?> getUserByUserName(@PathVariable("name") String name) {
         try {
