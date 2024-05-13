@@ -105,8 +105,8 @@
     </button>
     </div>
 </body>
-<script>
-
+<script th:inline="javascript">
+     var user = /*[[${user}]]*/ null;
     var userId = 1;
     // connect websocket to show notification
     const mess = document.querySelector('.message')
@@ -128,7 +128,7 @@
     stompClient = Stomp.over(socket)
     const userChannel = "/user/" + userId + '/notification'
     stompClient.connect({}, function (frame) {
-        console.log(frame);
+
         stompClient.subscribe(userChannel, function (result) {
             show(JSON.parse(result.body))
         })
@@ -198,7 +198,6 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
-            console.log(post);
             if (index > skip) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
