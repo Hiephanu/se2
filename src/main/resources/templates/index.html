@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script src="http://localhost:35729/"></script>
-    <script th:src= "@{/js/modal.js}" defer></script>
+    <script th:src="@{/js/modal.js}" defer></script>
 </head>
 
 <body>
@@ -21,7 +21,8 @@
     <div id="postModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <form th:action="@{/post/create}" enctype="multipart/form-data" th:object="${savePostRequestDto}" method="post">
+            <form th:action="@{/post/create}" enctype="multipart/form-data" th:object="${savePostRequestDto}"
+                method="post">
                 <label for="fullName">Full Name:</label>
                 <input th:field="*{content}" type="text" id="fullName" />
                 <label for="file">Choose file to upload</label>
@@ -106,14 +107,15 @@
                                 <img th:src="${post.image}" alt="" class="post__content__image">
                             </div>
 
-                            <div class = "post-comments">
+                            <div class="post-comments">
 
                             </div>
 
                             <div class="comment-form-wrapper">
-                                <form class="comment-form" th:action="@{/comment/create}" th:object="${commentRequestDto}" method="post" id = {}>
+                                <form class="comment-form" th:action="@{/comment/create}"
+                                    th:object="${commentRequestDto}" method="post" id={}>
                                     <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
-                                    <input th:field="*{content}" type="text" id="content" class="comment-content"/>
+                                    <input th:field="*{content}" type="text" id="content" class="comment-content" />
                                     <input type="submit" value="Submit">
                                 </form>
                             </div>
@@ -133,7 +135,7 @@
     </div>
 </body>
 <script th:inline="javascript">
-     var user = /*[[${user}]]*/ null;
+    var user = /*[[${user}]]*/ null;
     var userId = 1;
     // connect websocket to show notification
     const mess = document.querySelector('.message')
@@ -290,6 +292,7 @@
                 const commentSection = post.querySelector(".post-comments")
                 reply.addEventListener('click', () => {
                     renderComment(postId, commentSection)
+                })
                 reply.addEventListener('click', () => {
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
@@ -298,7 +301,7 @@
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
                 })
-            
+
                 const commentForm = post.querySelector(".comment-form")
                 const comment = commentForm.querySelector(".comment-content")
 
@@ -306,36 +309,35 @@
                     event.preventDefault()
                     const contentInputEl = commentForm.querySelector("#content")
                     console.log(contentInputEl)
-                    
-                    if(contentInputEl.value.length > 0) {   
+
+                    if (contentInputEl.value.length > 0) {
                         const formData = new FormData(commentForm);
                         formData.append("postId", postId)
-                        
+
                         fetch('/comment/create', {
-                        method: 'POST',
-                        body: formData
+                            method: 'POST',
+                            body: formData
                         })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            
-                            return response.json(); // Assuming the response is JSON
-                        })
-                        .then(data => {
-                            renderComment(postId, commentSection)
-                            contentInputEl.value = ""
-                            console.log('Comment saved:', data);
-                            // Do something with the response data if needed
-                        })
-                        .catch(error => {
-                            console.error('There was a problem with the fetch operation:', error);
-                            // Handle errors
-                        });
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+
+                                return response.json(); // Assuming the response is JSON
+                            })
+                            .then(data => {
+                                renderComment(postId, commentSection)
+                                contentInputEl.value = ""
+                                console.log('Comment saved:', data);
+                                // Do something with the response data if needed
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                                // Handle errors
+                            });
                     }
 
                 })
-            
             }
         })
     }
@@ -345,7 +347,7 @@
         const genComments = (commentList) => {
             let html = ""
             commentList.forEach((comment, index) => {
-               const commentDOM =  ` <div class="comment-container">
+                const commentDOM = ` <div class="comment-container">
                                         <div class="comment-content">
                                             <div class="avatar">
                                                 <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg" alt="User Avatar">
@@ -361,7 +363,7 @@
             })
             return html
         }
-        
+
         fetch(`/post/${postId}`)
             .then(res => res.json())
             .then(data => {
@@ -371,9 +373,6 @@
             .catch(err => console.log(err))
     }
 
-            }
-        })
-    }
     //infinitive scrool
     window.addEventListener('scroll', () => {
         let scrollPositon = window.scrollY || document.documentElement.scrollTop
@@ -384,7 +383,7 @@
             getPostByPage(count, 5)
                 .then(posts => {
                     addNewsPost(posts)
-                    handlePostAction(count*5-1)
+                    handlePostAction(count * 5 - 1)
                 })
                 .catch(error => {
                     console.error('Error fetching posts:', error);

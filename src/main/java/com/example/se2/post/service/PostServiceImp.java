@@ -59,10 +59,4 @@ public class PostServiceImp implements PostService {
         Page<PostEntity> postPage = postRepository.findByUserId(userID, pageRequest);
         return postPage.getContent();
     }
-    @Override
-    public List<PostEntity> getListPostByUserId(long userID, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<PostEntity> postPage = postRepository.findByUserId(userID, pageRequest);
-        return postPage.getContent();
-    }
 }
