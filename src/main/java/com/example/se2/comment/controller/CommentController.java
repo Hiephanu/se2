@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     @Autowired
     private CommentService commentService;
-//    @GetMapping("/post/{id}")
-//    public ResponseEntity<?> getAllPostComment(@PathVariable String id){
-//        return ResponseEntity.ok(commentService.findAllCommentByPostId(Long.parseLong(id)));
-//    }
+    @GetMapping("/post/{id}")
+    public ResponseEntity<?> getAllPostComment(@PathVariable String id){
+        return ResponseEntity.ok(commentService.findAllCommentByPostId(Long.parseLong(id)));
+    }
 //    @PostMapping("")
 //    public ResponseEntity<?> commentPost(@RequestBody CommentRequestDto commentRequestDto){
 //        return ResponseEntity.ok(commentService.saveComment(commentRequestDto));

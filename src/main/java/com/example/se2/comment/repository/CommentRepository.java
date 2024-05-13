@@ -10,4 +10,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 //    List<Comment> findAllByPostIdAndCommentParentId();
 //    List<Comment> findAllByCommentParentId(long parentId);
+    List<Comment> findByPostId(Long postId);
 }

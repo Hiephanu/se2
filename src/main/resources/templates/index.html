@@ -105,6 +105,11 @@
                                 <p class="post__content__title" th:text="${post.content}"></p>
                                 <img th:src="${post.image}" alt="" class="post__content__image">
                             </div>
+
+                            <div class = "post-comments">
+
+                            </div>
+
                             <div class="comment-form-wrapper">
                                 <form class="comment-form" th:action="@{/comment/create}" th:object="${commentRequestDto}" method="post" id = {}>
                                     <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
@@ -112,6 +117,7 @@
                                     <input type="submit" value="Submit">
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -281,7 +287,9 @@
                 const reply = post.querySelector('.fa-comment')
                 const replyWrapper = post.querySelector('.reply__wrapper')
                 const replyX = post.querySelector('.reply__x__icon')
+                const commentSection = post.querySelector(".post-comments")
                 reply.addEventListener('click', () => {
+                    renderComment(postId, commentSection)
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
                 })
@@ -295,32 +303,71 @@
 
                 commentForm.addEventListener("submit", (event) => {
                     event.preventDefault()
-                    const formData = new FormData(commentForm);
+                    const contentInputEl = commentForm.querySelector("#content")
+                    console.log(contentInputEl)
+                    
+                    if(contentInputEl.value.length > 0) {   
+                        const formData = new FormData(commentForm);
+                        formData.append("postId", postId)
+                        
+                        fetch('/comment/create', {
+                        method: 'POST',
+                        body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            
+                            return response.json(); // Assuming the response is JSON
+                        })
+                        .then(data => {
+                            renderComment(postId, commentSection)
+                            contentInputEl.value = ""
+                            console.log('Comment saved:', data);
+                            // Do something with the response data if needed
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                            // Handle errors
+                        });
+                    }
 
-                    formData.append("postId", postId)
-                    console.log(formData)
-                    fetch('/comment/create', {
-                    method: 'POST',
-                    body: formData
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json(); // Assuming the response is JSON
-                    })
-                    .then(data => {
-                        console.log('Comment saved:', data);
-                        // Do something with the response data if needed
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                        // Handle errors
-                    });
                 })
             
             }
         })
+    }
+
+    //handle comment
+    const renderComment = (postId, commentSection) => {
+        const genComments = (commentList) => {
+            let html = ""
+            commentList.forEach((comment, index) => {
+               const commentDOM =  ` <div class="comment-container">
+                                        <div class="comment-content">
+                                            <div class="avatar">
+                                                <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg" alt="User Avatar">
+                                            </div>
+                                            <div class="comment-details">
+                                                <div class="user-name">John Doe</div>
+                                                <div class="comment-text">${comment.content}</div>
+                                                <div class="timestamp">Posted 1 hour ago</div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                html += commentDOM
+            })
+            return html
+        }
+        
+        fetch(`/post/${postId}`)
+            .then(res => res.json())
+            .then(data => {
+                commentSection.innerHTML = genComments(data)
+            })
+
+            .catch(err => console.log(err))
     }
 
     //infinitive scrool

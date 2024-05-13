@@ -12,10 +12,10 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService{
     @Autowired
     private CommentRepository commentRepository;
-//    @Override
-//    public List<Comment> findAllCommentByPostId(long postId) {
-//        return commentRepository.findAllByPostIdAndCommentParentId();
-//    }
+    @Override
+    public List<Comment> findAllCommentByPostId(long postId) {
+        return commentRepository.findByPostId(postId);
+    }
 
     @Override
     public Comment saveComment(CommentRequestDto commentRequestDto) {
