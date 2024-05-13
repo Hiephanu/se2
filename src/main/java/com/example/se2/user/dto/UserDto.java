@@ -1,6 +1,13 @@
 package com.example.se2.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 public class UserDto {
+    private long id;
     private String fullName;
     private String username;
     private String age;
@@ -18,6 +25,12 @@ public class UserDto {
         this.password = password;
     }
 
+    public long getId() {
+        return id;
+    }
+    public void  setId(long id) {
+        this.id = id;
+    }
     public String getFullName() {
         return fullName;
     }

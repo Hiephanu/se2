@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Follow</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/header.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/home.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -18,16 +18,8 @@
     <div th:replace="~{fragments/header :: header}"></div>
     <div class="container">
         <div class="swap">
-            <p>Dành cho bạn</p>
+            <p>Follow</p>
             <i class="fa-solid fa-shuffle"></i>
-        </div>
-        <div class="post__container">
-            <div class="post">
-                <div class="hello_user">
-                    <h1>Em chào đại ca <span>[[${user.getFullName()}]]</span> ạ !</h1>
-                    <input th:type="text" class="question" placeholder="Ngày hôm nay của đại ca thế nào ?">
-                </div>
-            </div>
         </div>
         <div class="post__container">
             <div class="posts">
@@ -105,9 +97,16 @@
     </button>
     </div>
 </body>
-<script th:inline="javascript">
-     var user = /*[[${user}]]*/ null;
+<script>
+
     var userId = 1;
+    let user;
+    // get user by id
+    const getUserById=async (userId) => {
+        const userData =await fetch(`http://localhost:8080/user/${userId}`)
+        user = userData
+    
+    }
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')
@@ -128,7 +127,7 @@
     stompClient = Stomp.over(socket)
     const userChannel = "/user/" + userId + '/notification'
     stompClient.connect({}, function (frame) {
-
+        console.log(frame);
         stompClient.subscribe(userChannel, function (result) {
             show(JSON.parse(result.body))
         })
@@ -198,6 +197,7 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
+            console.log(post);
             if (index > skip) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
