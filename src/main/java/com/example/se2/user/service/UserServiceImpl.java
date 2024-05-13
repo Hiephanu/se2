@@ -23,6 +23,22 @@ public class UserServiceImpl implements UserService{
         User user = new User(userDto.getFullName(), userDto.getUsername(), userDto.getAge(), userDto.getAddress(), userDto.getAvatar(), passwordEncoder.encode(userDto.getPassword()) );
         return userRepository.save(user);
     }
+    @Override
+    public UserReturnDto getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        UserReturnDto userReturnDto = new UserReturnDto();
+        userReturnDto.setId(user.getId());
+        userReturnDto.setUsername(user.getUsername());
+        userReturnDto.setAge(user.getAge());
+        userReturnDto.setFullName(user.getFullName());
+        userReturnDto.setAvatar(user.getAvatar());
+        if(user != null) {
+            return  userReturnDto;
+        } else {
+            throw new NotFoundException("User not found");
+        }
+    }
+
     public UserReturnDto getUserById(long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()) {

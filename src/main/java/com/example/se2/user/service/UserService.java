@@ -6,5 +6,6 @@ import com.example.se2.user.model.User;
 
 public interface UserService {
     User save(UserDto userDto);
+    UserReturnDto getUserByUsername(String username);
     UserReturnDto getUserById(long id);
 }

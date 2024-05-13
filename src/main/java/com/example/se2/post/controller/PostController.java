@@ -58,9 +58,11 @@ public class PostController {
         return "index";
     }
     @RequestMapping("/follow")
-    public String following(Model model){
+    public String following(Model model,Principal principal){
         List<PostEntity> posts=  getPostService.getListPostFollow(1, 0,5);
         model.addAttribute("posts", posts);
+        System.out.println(principal.getName());
+        model.addAttribute("user", userDetailsService.loadUserByUsername(principal.getName()));
         return "follow";
     }
 }

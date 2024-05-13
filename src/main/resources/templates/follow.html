@@ -100,6 +100,13 @@
 <script>
 
     var userId = 1;
+    let user;
+    // get user by id
+    const getUserById=async (userId) => {
+        const userData =await fetch(`http://localhost:8080/user/${userId}`)
+        user = userData
+    
+    }
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')

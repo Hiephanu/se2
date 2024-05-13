@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/header.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/home.css}">
+    <link rel="stylesheet" href="text/css" th:href="@{/css/search.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="searchWrapper">
+        <div class="search">
+            <div class="search_input">
+                <i class="search_icon fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="search_input_text" id="searchInput" placeholder="Search for user" />
+            </div>
+            <div class="search_result">
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .searchWrapper {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+
+    }
+
+    .search {
+        width: 60%;
+    }
+
+    .search_input {
+        width: 100%;
+        position: relative;
+    }
+
+    .search_input_text {
+        width: 100%;
+        border-radius: 15px;
+        padding: 5px 40px 5px 40px;
+        height: 30px;
+        color: black;
+    }
+
+    .search_icon {
+        position: absolute;
+        top: 13px;
+        left: 10px;
+    }
+
+    .search_result {
+        margin-top: 50px;
+        width: 85%;
+
+        margin-left: auto;
+
+    }
+
+    .search_result_item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 2px;
+        margin-top: 10px;
+    }
+
+    .search_result_item_infor {
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+        gap: 10px;
+        margin-left: 6%;
+    }
+
+    .search_result_item_image {
+        width: 35px;
+        height: 35px;
+        border-radius: 200px;
+        margin-top: 10px;
+    }
+
+    .search_result_item_name {
+        color: black;
+        font-weight: 600;
+        margin: 6px;
+    }
+
+    .search_result_item_follower {
+        color: gray;
+        font-weight: 600;
+        margin: 6px;
+    }
+
+    .search_result_item_button {
+        padding: 6px 20px 6px 20px;
+        background-color: white;
+        color: black;
+        font-weight: 600;
+        font-size: 15;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
+    .search_result_item_button_wrapper {
+        margin-right: 6%;
+    }
+
+    .followed {
+        background-color: black;
+        color: white;
+    }
+</style>
+<script th:inline="javascript">
+    var userCurrent = /*[[${user}]]*/ null;
+    const searchInput = document.getElementById('searchInput');
+    let debounceTimer;
+
+    //check follow 
+    const checkFollow = async (followerId, followedId) => {
+        try {
+            const res = await fetch('http://localhost:8080/follow/check-follow', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    followerId: followerId,
+                    followedId: followedId
+                })
+            });
+            const check = await res.json()
+            console.log(check);
+            return check
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    //save follow 
+    const saveFollow = async (followerId, followedId) => {
+        try {
+            const res =  await fetch(`http://localhost:8080/follow` , {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({
+                    followerId: followerId,
+                    followedId: followedId
+                })
+            })
+            return res.ok
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    //display follow
+    function displaySearchResults(users) {
+        const searchResultContainer = document.querySelector('.search_result');
+
+        searchResultContainer.innerHTML = '';
+
+        users.forEach(async (user) => {
+            const userElement = document.createElement('div');
+            userElement.classList.add('search_result_item');
+            let userFollowers = []
+            const getFollows = async () => {
+                try {
+                    const res = await fetch(`http://localhost:8080/follow/followed/${user.id}`)
+                    userFollowers = await res.json()
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            userElement.innerHTML = `
+            <div class="search_result_item_infor">
+                <img src="${user.avatar}" class="search_result_item_image">
+                <div>
+                    <p class="search_result_item_name">${user.fullName}</p>
+                    <p class="search_result_item_follower">${userFollowers.length} followers</p>
+                </div>
+            </div>
+            <div class="search_result_item_button_wrapper">
+                <button class="search_result_item_button">
+                    Follow
+                </button>
+            </div>
+        `;
+            const followButton = userElement.querySelector('.search_result_item_button');
+            const check = await checkFollow(userCurrent.id, user.id)
+            if (check) {
+                followButton.classList.add('followed')
+            }
+            followButton.addEventListener('click',async () => {
+                const followerId = userCurrent.id
+                const followedId = user.id
+                const res =await saveFollow(followerId, followedId)
+                if(res) {
+                    followButton.classList.add('followed')
+                } 
+            });
+            searchResultContainer.appendChild(userElement);
+        });
+    }
+
+
+    // debounce show user
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(async () => {
+            const keyword = searchInput.value.trim();
+            if (keyword) {
+                try {
+                    const response = await fetch(`http://localhost:8080/user/search?keyword=${keyword}`);
+                    const users = await response.json();
+                    displaySearchResults(users);
+                } catch (error) {
+                    console.error('Error fetching users:', error);
+                }
+            } else {
+                const result = document.querySelector('.search_result')
+                result.innerHTML(`Can not find user with keyword "${keyword}" `)
+            }
+        }, 800);
+    });
+</script>
+
+</html>

@@ -132,8 +132,8 @@
     </button>
     </div>
 </body>
-<script>
-
+<script th:inline="javascript">
+     var user = /*[[${user}]]*/ null;
     var userId = 1;
     // connect websocket to show notification
     const mess = document.querySelector('.message')
@@ -290,6 +290,7 @@
                 const commentSection = post.querySelector(".post-comments")
                 reply.addEventListener('click', () => {
                     renderComment(postId, commentSection)
+                reply.addEventListener('click', () => {
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
                 })
@@ -370,6 +371,9 @@
             .catch(err => console.log(err))
     }
 
+            }
+        })
+    }
     //infinitive scrool
     window.addEventListener('scroll', () => {
         let scrollPositon = window.scrollY || document.documentElement.scrollTop
@@ -411,7 +415,6 @@
             console.log(err)
         }
     }
-    
     handlePostAction(0)
 
 </script>
