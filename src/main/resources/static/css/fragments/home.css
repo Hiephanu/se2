@@ -232,7 +232,18 @@ body {
 .readonly-input{
     cursor: default;
     pointer-events: none;
-=======
+}
+.message-user-error{
+    background-color: pink;
+    color: red;
+    padding:15px;
+    margin:0px 0px 10px 0px;
+    border-radius:15px;
+    text-align: center;
+}
+
+
+
 .fa-heart {
     cursor: pointer;
 }

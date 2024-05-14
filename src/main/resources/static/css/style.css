@@ -150,4 +150,13 @@ body {
     border-radius:10px;
     text-align: center;
 }
+.register-form .message-user-error{
+    background-color: pink;
+    color: red;
+    padding:15px;
+    margin:0px 0px 10px 0px;
+    border-radius:10px;
+    text-align: center;
+    max-width: 375px;
+}
 

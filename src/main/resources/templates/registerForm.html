@@ -16,15 +16,14 @@
       <div class="message-user-exist" th:if="${messageUserExist} != null ">
         [[${messageUserExist}]]
       </div>
-      <div class="message-user-exist" th:if="${messageError} != null ">
+      <div class="message-user-error" th:if="${messageError} != null ">
         [[${messageError}]]
       </div>
       <label for="fullName">Full Name:</label><br>
       <input th:field="*{fullName}" type="text" id="fullName" name="fullName" placeholder="Enter your full name..." required autofocus>
-      <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
 
-      <label for="username">Username, phone or email:</label><br>
-      <input th:field="*{username}" type="text" id="username" name="username" placeholder="Username, phone or email..." required>
+      <label for="username">Email:</label><br>
+      <input th:field="*{username}" type="email" id="username" name="username" placeholder="Your email..." required>
 
       <label for="age">Age:</label><br>
       <input th:field="*{age}" type="text" id="age" name="age" placeholder="Age..." required>
@@ -34,8 +33,6 @@
 
       <label for="password">Password:</label><br>
       <input th:field="*{password}" type="password" id="password" name="password" placeholder="Password..." required>
-      <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-
 
       <button type="submit">Sign up</button>
       <p>-<a th:href="@{/login}">Log in</a>-</p>
