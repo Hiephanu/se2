@@ -23,6 +23,12 @@ public class CustomUserDetail implements UserDetails{
         return user.getFullName();
     }
 
+    public User getUserEntity() {
+        return this.user;
+    }
+    public String getUserAvatar() {
+        return user.getAvatar();
+    }
     public Long getUserId() {
         return user.getId();
     }

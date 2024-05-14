@@ -17,13 +17,17 @@ public class User {
 
     public User() {
     }
-    public User(String fullName, String username, String age, String address, String avatar, String password) {
+    public User(String fullName, String username, String age, String avatar, String address, String password) {
         super();
         this.fullName = fullName;
         this.username = username;
         this.age = age;
         this.address = address;
-        this.avatar = avatar;
+        if(avatar.length() > 0) {
+            this.avatar = avatar;
+        } else {
+            this.avatar = "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg";
+        }
         this.password = password;
     }
 
