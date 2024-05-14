@@ -1,6 +1,8 @@
 package com.example.se2.user.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
@@ -9,11 +11,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Length(min = 3, max = 20)
     private String fullName;
     private String username;
     private String age;
     private String address;
     private String avatar;
+    @Length(min = 8, max = 15)
     private String password;
 
     public User() {
