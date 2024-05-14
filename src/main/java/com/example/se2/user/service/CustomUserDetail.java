@@ -47,6 +47,10 @@ public class CustomUserDetail implements UserDetails{
     public void setAvatar(String avatar) {
         this.user.setAvatar(avatar);
     }
+
+    public Long getUserId() {
+        return user.getId();
+    }
     @Override
     public String getPassword() {
         return user.getPassword();

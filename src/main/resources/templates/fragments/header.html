@@ -13,27 +13,31 @@
             <nav class="header__nav">
                 <a href="/" class="header__active header__nav__item">
                     <div>
-                        <i class="fa-solid fa-house"></i>
+                        <i class="nav_item fa-solid fa-house"></i>
                     </div>
                 </a>
                 <a href="/search" class="header__nav__item">
                     <div>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i class="nav_item fa-solid fa-magnifying-glass"></i>
                     </div>
                 </a>
                 <a href="/heart" class="header__nav__item">
                     <div>
-                        <i class="fa-solid fa-heart"></i>
+                        <i class="nav_item fa-solid fa-heart"></i>
                     </div>
                 </a>
                 <a th:href="'/userProfile/' + ${user.id}" class="header__nav__item">
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="nav_item fa-solid fa-user"></i>
                     </div>
                 </a>
             </nav>
             <div class="header__menu">
-                <i class="fa-solid fa-bars"></i>
+                <div class="logout">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit">Đăng xuất nè !</button>
+                    </form>
+                </div>
             </div>
         </div>
   </div>

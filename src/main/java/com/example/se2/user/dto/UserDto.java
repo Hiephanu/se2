@@ -1,6 +1,11 @@
 package com.example.se2.user.dto;
 
 import org.hibernate.validator.constraints.Length;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class UserDto {
     @Length(min = 3, max = 20)
@@ -22,6 +27,12 @@ public class UserDto {
         this.password = password;
     }
 
+    public long getId() {
+        return id;
+    }
+    public void  setId(long id) {
+        this.id = id;
+    }
     public String getFullName() {
         return fullName;
     }

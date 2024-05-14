@@ -1,5 +1,6 @@
 package com.example.se2.Cloudinary;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/image/upload")
-@RequiredArgsConstructor
+@RequestMapping("/image")
+@AllArgsConstructor
 public class CloudinaryController {
     private final CloudinaryService cloudinaryService;
-
-
-    @PostMapping
+    @PostMapping("/upload")
     public ResponseEntity<Map> uploadImage(@RequestParam("image") MultipartFile file){
-        Map data = this.cloudinaryService.upload(file);
+        Map data = (Map) this.cloudinaryService.upload(file);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }
