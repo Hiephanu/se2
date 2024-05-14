@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,15 +37,14 @@ public class LoginController {
 
     @PostMapping("/register")
     public String saveUser(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("messageError", "Invalid input, username must be 6 to 20 character, password must be 8 to 15 character");
+        User user = userService.findUserByUsername(userDto.getUsername());
+        if (user != null) {
+            model.addAttribute("messageUserExist", "Email is taken");
             return "registerForm";
-        } else {
-            UserReturnDto user = userService.getUserByUsername(userDto.getUsername());
-            if (user != null) {
-                model.addAttribute("messageUserExist", "Username is taken");
-            }
-            System.out.println("err" + result);
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("messageError", "Invalid value: Full name must be 3 to 20 characters. Age must be between 16 and 100. Password must be 8 to 15 characters.");
+            return "registerForm";
         }
         userService.save(userDto);
         model.addAttribute("message","Registered Successfully !");
@@ -72,7 +70,11 @@ public class LoginController {
     }
 
     @PostMapping("/userProfile/edit/updated/{id}")
-    public String updateUserProfile(@Valid @ModelAttribute("user") User user, Model model){
+    public String updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            model.addAttribute("messageError", "Invalid value: Full name must be 3 to 20 characters. Age must be between 16 and 100.");
+            return "userProfileEdit";
+        }
         userService.update(user);
         model.addAttribute("message","Updated user information successfully");
         return "userProfileEdit";

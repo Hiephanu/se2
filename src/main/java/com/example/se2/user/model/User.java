@@ -1,7 +1,6 @@
 package com.example.se2.user.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -17,7 +16,6 @@ public class User {
     private String age;
     private String address;
     private String avatar;
-    @Length(min = 8, max = 15)
     private String password;
 
     public User() {
