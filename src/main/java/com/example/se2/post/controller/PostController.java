@@ -6,6 +6,7 @@ import com.example.se2.post.model.dto.PostDto;
 import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
 import com.example.se2.post.service.PostService;
+import com.example.se2.user.dto.UserReturnDto;
 import com.example.se2.user.model.User;
 import com.example.se2.user.service.CustomUserDetail;
 import com.example.se2.user.service.UserService;
@@ -38,6 +39,8 @@ public class PostController {
     UserDetailsService userDetailsService;
     @Autowired
     PostService postService;
+
+    private UserService userService;
     
     @PostMapping("/post/create")
     public String createPost(@ModelAttribute SavePostRequestDto savePostRequestDto, BindingResult result) {
@@ -51,11 +54,11 @@ public class PostController {
     }
     @RequestMapping("")
     public String forYou(Model model,  Principal principal){
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        UserReturnDto userReturnDto = userService.getUserByUsername(principal.getName());
         List<PostEntity> posts = getPostService.getListPostForYou(0,5);
         SavePostRequestDto savePostRequestDto = new SavePostRequestDto();
         CommentRequestDto commentRequestDto = new CommentRequestDto();
-        model.addAttribute("user", userDetails);
+        model.addAttribute("user", userReturnDto);
         model.addAttribute("posts", posts);
         model.addAttribute("savePostRequestDto", savePostRequestDto);
         model.addAttribute("commentRequestDto", commentRequestDto);

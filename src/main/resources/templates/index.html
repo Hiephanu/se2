@@ -137,6 +137,7 @@
 <script th:inline="javascript">
     var user = /*[[${user}]]*/ null;
     var userId = 1;
+    console.log(user);
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')

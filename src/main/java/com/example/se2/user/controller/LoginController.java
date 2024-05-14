@@ -1,6 +1,7 @@
 package com.example.se2.user.controller;
 
 import com.example.se2.user.dto.UserDto;
+import com.example.se2.user.dto.UserReturnDto;
 import com.example.se2.user.model.User;
 import com.example.se2.user.service.UserService;
 import jakarta.validation.Valid;
@@ -41,7 +42,7 @@ public class LoginController {
             model.addAttribute("messageError", "Invalid input, username must be 6 to 20 character, password must be 8 to 15 character");
             return "registerForm";
         } else {
-            User user = userService.findUserByUsername(userDto.getUsername());
+            UserReturnDto user = userService.getUserByUsername(userDto.getUsername());
             if (user != null) {
                 model.addAttribute("messageUserExist", "Username is taken");
             }
