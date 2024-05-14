@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface UserService {
     User save(UserDto userDto);
 //     User findUserByUsername(String username);
-//     User findUserById(Long id);
+     User findUserById(Long id);
     User update(User user);
     UserReturnDto getUserByUsername(String username);
     UserReturnDto getUserById(long id);
