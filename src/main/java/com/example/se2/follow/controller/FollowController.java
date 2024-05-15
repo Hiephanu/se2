@@ -28,6 +28,17 @@ public class FollowController {
     @GetMapping("/followed/{id}")
     public ResponseEntity<?> getAllFollowerByFollowedId(@PathVariable long id) {
         try {
+            List<Follow> follows = followService.getAllFollowByFollowedId(id);
+            return  ResponseEntity.ok(follows);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/following/{id}")
+    public ResponseEntity<?> getAllFollowing(@PathVariable long id) {
+        try {
             List<Follow> follows = followService.getAllFollowByFollowerId(id);
             return  ResponseEntity.ok(follows);
         } catch (Exception e) {
