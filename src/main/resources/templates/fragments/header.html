@@ -26,7 +26,7 @@
                         <i class="nav_item fa-solid fa-heart"></i>
                     </div>
                 </a>
-                <a th:href="@{/userInfo}" class="header__nav__item">
+                <a th:href="'/userProfile/' + ${user.id}" class="header__nav__item">
                     <div>
                         <i class="nav_item fa-solid fa-user"></i>
                     </div>
@@ -38,7 +38,7 @@
                         <button type="submit">Đăng xuất nè !</button>
                     </form>
                 </div>
-            </div>
+            </div>f
         </div>
   </div>
 </body>

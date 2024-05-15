@@ -97,6 +97,153 @@ body {
     border:1px solid #cccccc;
     border-radius:20px;
 }
+
+/* CSS của AnhZlatan */
+.profile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.profile .top {
+    width:50%;
+    display: flex;
+    padding: 25px 25px 25px 75px;
+    margin:30px 0px;
+    background-color:rgb(246, 246, 246);
+    border-radius: 30px;
+    gap:10%;
+}
+.profile .top .right {
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+.profile .top .right .one {
+    display: flex;
+    align-items:center;
+    gap:2%;
+}
+.profile .top .right .one a {
+    padding: 8px 15px;
+    border:none;
+    border-radius: 10px;
+    background-color: #333333;
+    color:white;
+    text-decoration:none;
+}
+.profile .top .right .one a:hover {
+    background-color: #1a1a1a;
+}
+.profile .top .right .two {
+    display: flex;
+    flex-direction:row;
+    gap:10%;
+}
+.profile .top .right .two p{
+    margin:0;
+}
+.profile .down {
+    width:53%;
+    display: flex;
+    flex-direction:column;
+    padding: 25px;
+    margin-bottom:30px;
+    background-color:rgb(246, 246, 246);
+    border-radius: 30px;
+    gap:30px;
+}
+.profile .down .nav {
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:15%;
+}
+.profile .down .nav a {
+    text-decoration:none;
+    padding-bottom:10px;
+    display:block;
+    border-bottom: 1.5px solid transparent;
+    color:black;
+    font-weight:bold;
+}
+.profile .down .nav a:hover {
+    border-bottom: 1.5px solid #333333;
+}
+.profile .down .content {
+    text-align:center;
+    padding-bottom:25px;
+}
+.profile .down .edit-form .form{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.profile .down .edit-form .form label{
+    margin-left:80px;
+    align-self: normal;
+}
+.profile .down .edit-form .form input {
+    display:inline-block;
+    padding: 20px;
+    width: 75%;
+    border-radius: 20px;
+    border: none;
+    background-color: #333333;
+    color: rgb(243, 245, 247);
+}
+.profile .down .edit-form .form .buttons {
+    align-self: end;
+    margin-top: 21px;
+}
+.profile .down .edit-form .form .buttons a {
+    margin-right:20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #d9d9d9;
+    color:black;
+    text-decoration:none;
+}
+.profile .down .edit-form .form .buttons a:hover {
+    background-color: #cccccc;
+}
+.profile .down .edit-form .form .buttons button {
+    margin-right:80px;
+    padding: 10px 20px;
+    border:none;
+    border-radius: 10px;
+    background-color: #4dc3ff;
+    color:white;
+}
+.profile .down .edit-form .form .buttons button:hover {
+    background-color: #33bbff;
+    cursor: pointer;
+}
+.hiddenInput {
+    display:none;
+}
+.profile .down .edit-form .message-edit{
+    background-color: #00C67E;
+    color: white;
+    padding:15px 18px;
+    margin:0px 0px 10px 0px;
+    border-radius:15px;
+}
+.readonly-input{
+    cursor: default;
+    pointer-events: none;
+}
+.message-user-error{
+    background-color: pink;
+    color: red;
+    padding:15px;
+    margin:0px 0px 10px 0px;
+    border-radius:15px;
+    text-align: center;
+}
+
+
+
 .fa-heart {
     cursor: pointer;
 }

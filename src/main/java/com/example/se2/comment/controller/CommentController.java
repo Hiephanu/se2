@@ -41,7 +41,7 @@ public class CommentController {
             Long userId = customUserDetail.getUserId();
             System.out.println(commentRequestDto.getPostId());
             Comment comment = new Comment();
-            comment.setUserId(userId);
+            comment.setUserId(1);
             comment.setContent(commentRequestDto.getContent());
             comment.setPostId(commentRequestDto.getPostId());
 

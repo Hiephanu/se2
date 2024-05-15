@@ -14,6 +14,10 @@ public class CustomUserDetail implements UserDetails{
         this.user = user;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> user.getUsername());
@@ -22,11 +26,31 @@ public class CustomUserDetail implements UserDetails{
     public String getFullName() {
         return user.getFullName();
     }
+    public String getAge() {
+        return user.getAge();
+    }
+    public String getAddress() {
+        return user.getAddress();
+    }
+    public String getAvatar() {
+        return user.getAvatar();
+    }
+    public void setFullName(String fullName) {
+        this.user.setFullName(fullName);
+    }
+    public void setAge(String age) {
+        this.user.setAge(age);
+    }
+    public void setAddress(String address) {
+        this.user.setAddress(address);
+    }
+    public void setAvatar(String avatar) {
+        this.user.setAvatar(avatar);
+    }
 
     public Long getUserId() {
         return user.getId();
     }
-
     @Override
     public String getPassword() {
         return user.getPassword();
