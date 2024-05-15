@@ -1,13 +1,15 @@
 package com.example.se2.user.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 public class UserDto {
-    private long id;
+    @Length(min = 3, max = 20)
     private String fullName;
     private String username;
     private String age;
@@ -25,12 +27,6 @@ public class UserDto {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void  setId(long id) {
-        this.id = id;
-    }
     public String getFullName() {
         return fullName;
     }

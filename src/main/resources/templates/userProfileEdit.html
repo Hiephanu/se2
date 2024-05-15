@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit profile</title>
+  <link rel="stylesheet" th:href="@{/css/fragments/home.css}">
+  <link rel="stylesheet" th:href="@{/css/fragments/header.css}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="http://localhost:35729/"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="profile">
+  <div class="top">
+    <div class="left">
+      <img src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg" alt="Avatar" width="180px" height="180px" style="border-radius:180px">
+    </div>
+    <div class="right">
+      <div class="one">
+        <h2 style="margin-right:50px" th:text="${user.getFullName()}"></h2>
+        <a th:href="'/userProfile/' + ${user.id}">Back to Profile</a>
+      </div>
+      <div class="two">
+        <p>0 posts</p>
+        <p>0 followers</p>
+        <p>0 following</p>
+      </div>
+      <div class="three">
+        <p>Em chào đại ca <span th:text="${user.getFullName()}"></span> ạ !</p>
+      </div>
+    </div>
+  </div>
+  <div class="down">
+    <div class="nav">
+      <h2 style="margin:0px">Edit Profile</h2>
+    </div>
+    <div class="edit-form">
+      <form class="form" th:action="'/userProfile/edit/updated/' + ${user.id}" method="post" role="form">
+        <div class="message-edit" th:if="${message} != null ">
+          [[${message}]]
+        </div>
+        <div class="message-user-error" th:if="${messageError} != null ">
+          [[${messageError}]]
+        </div>
+        <label for="fullName">Full Name:</label><br>
+        <input th:type="text" id="fullName" name="fullName" th:value="${user.fullName}" required autofocus><br>
+
+        <label for="age">Age:</label><br>
+        <input th:type="text" id="age" name="age" th:value="${user.age}" required><br>
+
+        <label for="address">Address:</label><br>
+        <input th:type="text" id="address" name="address" th:value="${user.address}" required><br>
+
+        <label>Avatar:</label><br>
+        <input th:type="file" name="avatar" accept="image/png, image/jpg, image/jpeg"><br>
+        <img id="thumbnail" alt="Logo Preview">
+
+        <div class="hiddenInput">
+          <label for="username">Username:</label><br>
+          <input th:type="text" id="username" name="username" th:value="${user.username}"><br>
+
+          <label for="password">Password:</label><br>
+          <input th:type="text" id="password" name="password" th:value="${user.password}"><br>
+        </div>
+
+        <div class="buttons">
+          <a th:href="'/userProfile/' + ${user.id}">Cancel</a>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
