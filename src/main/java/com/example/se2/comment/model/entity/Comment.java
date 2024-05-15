@@ -1,5 +1,6 @@
 package com.example.se2.comment.model.entity;
 
+import com.example.se2.user.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

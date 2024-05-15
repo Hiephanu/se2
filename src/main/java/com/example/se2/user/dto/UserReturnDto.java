@@ -16,4 +16,8 @@ public class UserReturnDto {
     private String age;
     private String address;
     private String avatar;
+
+    public String getUserAvatar() {
+        return this.avatar;
+    }
 }
