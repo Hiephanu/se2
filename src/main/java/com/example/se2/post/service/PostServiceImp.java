@@ -8,6 +8,7 @@ import com.example.se2.post.model.dto.PostDto;
 import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
 import com.example.se2.post.repository.PostRepository;
+import com.example.se2.share.exception.NotFoundException;
 import com.example.se2.user.model.User;
 import com.example.se2.user.service.CustomUserDetail;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -74,5 +76,15 @@ public class PostServiceImp implements PostService {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<PostEntity> postPage = postRepository.findByUserId(userID, pageRequest);
         return postPage.getContent();
+    }
+
+    @Override
+    public PostEntity getPostById(long id) {
+        Optional<PostEntity> postEntity = postRepository.findById(id);
+        if(postEntity.isPresent()) {
+            return postEntity.get();
+        } else {
+            throw  new NotFoundException("Post not found");
+        }
     }
 }

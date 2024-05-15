@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script src="http://localhost:35729/"></script>
+    <script th:src="@{/js/header.js}" defer></script>
 </head>
 
 <body>
@@ -110,8 +111,8 @@
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')
-    const sendHanller = (id, content) => {
-        stompClient.send(userChannel, {}, JSON.stringify({ id: id, content: content }))
+    const sendHanller = (userId, content) => {
+        stompClient.send(userChannel, {}, JSON.stringify({ userId: id, content: content, }))
     }
     send.addEventListener('click', () => {
         sendHanller()

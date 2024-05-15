@@ -11,5 +11,6 @@ public interface PostService {
     public List<PostEntity> getListPostForYou(int page,int size);
     public List<PostEntity> getListPostFollow(int userId,int page,int size);
     public List<PostEntity> getListPostByUserId(long userID, int page, int size);
+    public PostEntity getPostById(long id);
     public PostEntity savePost(SavePostRequestDto savePostRequestDto);
 }
