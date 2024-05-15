@@ -1,8 +1,10 @@
 package com.example.se2.user.service;
 
+import com.example.se2.Cloudinary.CloudinaryService;
 import com.example.se2.share.exception.NotFoundException;
 import com.example.se2.user.dto.UserDto;
 import com.example.se2.user.dto.UserReturnDto;
+import com.example.se2.user.dto.UserUpdateDto;
 import com.example.se2.user.model.User;
 import com.example.se2.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
 
+    private CloudinaryService cloudinaryService;
     @Override
     public User save(UserDto userDto) {
         User user = new User(userDto.getFullName(), userDto.getUsername(), userDto.getAge(), userDto.getAvatar(), userDto.getAddress(), passwordEncoder.encode(userDto.getPassword()));
@@ -37,6 +40,24 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User update(User user) {
+        return null;
+    }
+
+    @Override
+    public User updateDto(UserUpdateDto userUpdateDto, Long userId) {
+        User user = findUserById(userId);
+        user.setAddress(userUpdateDto.getAddress());
+        user.setFullName(userUpdateDto.getFullName());
+        user.setUsername(userUpdateDto.getUsername());
+        user.setAge(userUpdateDto.getAge());
+        user.setPassword(userUpdateDto.getPassword());
+        try {
+            Object url = cloudinaryService.upload(userUpdateDto.getAvatar());
+            user.setAvatar(url.toString());
+        } catch (RuntimeException e) {
+            user.setAddress("");
+        }
+
         return userRepository.save(user);
     }
 

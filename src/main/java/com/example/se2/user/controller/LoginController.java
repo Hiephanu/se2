@@ -1,10 +1,14 @@
 package com.example.se2.user.controller;
 
+import com.example.se2.Cloudinary.CloudinaryService;
 import com.example.se2.user.dto.UserDto;
 import com.example.se2.user.dto.UserReturnDto;
+import com.example.se2.user.dto.UserUpdateDto;
 import com.example.se2.user.model.User;
 import com.example.se2.user.service.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +24,7 @@ public class LoginController {
     private UserDetailsService userDetailsService;
     private UserService userService;
 
+    private CloudinaryService cloudinaryService;
     public LoginController(UserDetailsService userDetailsService, UserService userService) {
         this.userDetailsService = userDetailsService;
         this.userService = userService;
@@ -59,7 +64,15 @@ public class LoginController {
 
     @GetMapping("/userProfile/edit/{id}")
     public String getUserProfileEdit(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
+        User user = userService.findUserById(id);
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        userUpdateDto.setFullName(user.getFullName());
+        userUpdateDto.setUsername(user.getUsername());
+        userUpdateDto.setAddress(user.getAddress());
+        userUpdateDto.setAge(user.getAge());
+        userUpdateDto.setPassword(user.getPassword());
+        model.addAttribute("user", user);
+        model.addAttribute("userUpdateDto", userUpdateDto);
         return "userProfileEdit";
     }
 
@@ -69,15 +82,35 @@ public class LoginController {
         return "userProfileDetail";
     }
 
+//    @PostMapping("/userProfile/edit/updated/{id}")
+//    public String updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+//        if (result.hasErrors()) {
+//            model.addAttribute("messageError", "Invalid value: Full name must be 3 to 20 characters. Age must be between 16 and 100.");
+//            return "userProfileEdit";
+//        }
+//
+//        userService.update(user);
+//        model.addAttribute("message","Updated user information successfully");
+//
+//        return "userProfileEdit";
+//    }
+
     @PostMapping("/userProfile/edit/updated/{id}")
-    public String updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+    public String updateUserProfile(@Valid @ModelAttribute UserUpdateDto userUpdateDto, @PathVariable Long id, BindingResult result, Model model){
         if (result.hasErrors()) {
             model.addAttribute("messageError", "Invalid value: Full name must be 3 to 20 characters. Age must be between 16 and 100.");
             return "userProfileEdit";
         }
-        userService.update(user);
+
+        try {
+            userService.updateDto(userUpdateDto, id);
+        } catch (RuntimeException e) {
+            userUpdateDto.setAvatar(null);
+            userService.updateDto(userUpdateDto, id);
+        }
         model.addAttribute("message","Updated user information successfully");
-        return "userProfileEdit";
+
+        return "redirect:/userProfile/" + id;
     }
 }
 

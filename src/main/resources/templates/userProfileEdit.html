@@ -15,7 +15,7 @@
 <div class="profile">
   <div class="top">
     <div class="left">
-      <img src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg" alt="Avatar" width="180px" height="180px" style="border-radius:180px">
+      <img th:src="${user.getAvatar()}" alt="Avatar" width="180px" height="180px" style="border-radius:180px; object-fit: cover">
     </div>
     <div class="right">
       <div class="one">
@@ -37,34 +37,37 @@
       <h2 style="margin:0px">Edit Profile</h2>
     </div>
     <div class="edit-form">
-      <form class="form" th:action="'/userProfile/edit/updated/' + ${user.id}" method="post" role="form">
-        <div class="message-edit" th:if="${message} != null ">
-          [[${message}]]
+      <form class="form" id="edit-form" th:action="'/userProfile/edit/updated/' + ${user.id}" 
+            th:object = "${userUpdateDto}" method="post" role="form" enctype="multipart/form-data">
+        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div class="message-edit" th:if="${message} != null ">
+            [[${message}]]
+          </div>
+          <div class="message-user-error" th:if="${messageError} != null ">
+            [[${messageError}]]
+          </div>
+          <label for="fullName">Full Name:</label><br>
+          <input th:type="text" th:field = "*{fullName}" id="fullName" name="fullName" th:value="${userUpdateDto.fullName}" required autofocus><br>
+  
+          <label for="age">Age:</label><br>
+          <input th:type="text" th:field = "*{age}" id="age" name="age" th:value="${userUpdateDto.age}" required><br>
+  
+          <label for="address">Address:</label><br>
+          <input th:type="text" th:field = "*{address}" id="address" name="address" th:value="${userUpdateDto.address}" required><br>
+  
+          <label>Avatar:</label><br>
+          <input th:type="file" th:field = "*{avatar}" name="avatar" accept="image/png, image/jpg, image/jpeg"><br>
+
+          <img id="thumbnail" alt="Logo Preview" >
+  
+          <div class="hiddenInput">
+            <label for="username">Username:</label><br>
+            <input th:type="text" th:field = "*{username}" id="username" name="username" th:value="${userUpdateDto.username}"><br>
+  
+            <label for="password">Password:</label><br>
+            <input th:type="text" th:field = "*{password}" id="password" name="password" th:value="${userUpdateDto.password}"><br>
+          </div>
         </div>
-        <div class="message-user-error" th:if="${messageError} != null ">
-          [[${messageError}]]
-        </div>
-        <label for="fullName">Full Name:</label><br>
-        <input th:type="text" id="fullName" name="fullName" th:value="${user.fullName}" required autofocus><br>
-
-        <label for="age">Age:</label><br>
-        <input th:type="text" id="age" name="age" th:value="${user.age}" required><br>
-
-        <label for="address">Address:</label><br>
-        <input th:type="text" id="address" name="address" th:value="${user.address}" required><br>
-
-        <label>Avatar:</label><br>
-        <input th:type="file" name="avatar" accept="image/png, image/jpg, image/jpeg"><br>
-        <img id="thumbnail" alt="Logo Preview">
-
-        <div class="hiddenInput">
-          <label for="username">Username:</label><br>
-          <input th:type="text" id="username" name="username" th:value="${user.username}"><br>
-
-          <label for="password">Password:</label><br>
-          <input th:type="text" id="password" name="password" th:value="${user.password}"><br>
-        </div>
-
         <div class="buttons">
           <a th:href="'/userProfile/' + ${user.id}">Cancel</a>
           <button type="submit">Save</button>
@@ -74,4 +77,5 @@
   </div>
 </div>
 </body>
+
 </html>

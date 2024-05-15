@@ -36,6 +36,8 @@ public class PostServiceImp implements PostService {
     public List<PostEntity> getListPostForYou(int page,int size) {
         PageRequest pageRequest = PageRequest.of(page,size);
         Page<PostEntity> postForYou = postRepository.findAll(pageRequest);
+
+
         return postForYou.getContent();
     }
 

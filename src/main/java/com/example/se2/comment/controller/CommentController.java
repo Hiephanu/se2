@@ -51,4 +51,8 @@ public class CommentController {
         }
     }
 
+    @GetMapping("/comment/quantity/{id}")
+    public ResponseEntity<?> commentQuantity(@PathVariable Long id){
+        return ResponseEntity.ok(commentService.getCommentQuantity(id));
+    }
 }

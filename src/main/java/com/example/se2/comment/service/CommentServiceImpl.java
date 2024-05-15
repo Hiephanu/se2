@@ -16,7 +16,6 @@ public class CommentServiceImpl implements CommentService{
     public List<Comment> findAllCommentByPostId(long postId) {
         return commentRepository.findByPostId(postId);
     }
-
     @Override
     public Comment saveComment(CommentRequestDto commentRequestDto) {
         return commentRepository.save(CommentRequestDto.convertToComment(commentRequestDto));
@@ -25,6 +24,12 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
+    }
+
+    @Override
+    public int getCommentQuantity(Long postId) {
+        List<Comment> commentList = findAllCommentByPostId(postId);
+        return commentList.size();
     }
 
 //    @Override

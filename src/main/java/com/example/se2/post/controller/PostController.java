@@ -57,7 +57,6 @@ public class PostController {
             postService.savePost(savePostRequestDto);
             return "redirect:/";
         }
-
     }
     @RequestMapping("")
     public String forYou(Model model,  Principal principal){
@@ -79,4 +78,5 @@ public class PostController {
         model.addAttribute("user", userDetailsService.loadUserByUsername(principal.getName()));
         return "follow";
     }
+
 }

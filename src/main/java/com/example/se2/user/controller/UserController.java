@@ -1,6 +1,7 @@
 package com.example.se2.user.controller;
 
 import com.example.se2.user.dto.UserReturnDto;
+import com.example.se2.user.model.User;
 import com.example.se2.user.service.SearchUserByFullNameService;
 import com.example.se2.user.service.UserService;
 import lombok.AllArgsConstructor;

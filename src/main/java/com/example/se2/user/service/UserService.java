@@ -2,6 +2,7 @@ package com.example.se2.user.service;
 
 import com.example.se2.user.dto.UserDto;
 import com.example.se2.user.dto.UserReturnDto;
+import com.example.se2.user.dto.UserUpdateDto;
 import com.example.se2.user.model.User;
 
 public interface UserService {
@@ -9,6 +10,7 @@ public interface UserService {
     User findUserByUsername(String username);
     User findUserById(Long id);
     User update(User user);
+    User updateDto(UserUpdateDto user, Long id);
     UserReturnDto getUserByUsername(String username);
     UserReturnDto getUserById(long id);
 }

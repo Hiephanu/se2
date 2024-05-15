@@ -11,5 +11,7 @@ public interface CommentService {
     List<Comment> findAllCommentByPostId(long postId);
     Comment saveComment(CommentRequestDto commentRequestDto);
     Comment saveComment(Comment comment);
+
+    int getCommentQuantity(Long postId);
 //    List<Comment> findAllByCommentParentId(long commentId);
 }
