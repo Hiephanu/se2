@@ -305,6 +305,7 @@ body {
 
 .comment-form-wrapper {
     padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .comment-content {
@@ -475,4 +476,10 @@ body {
   cursor: not-allowed;
   background: rgba(0, 0, 0, .08);
   color: rgba(0, 0, 0, .3);
+}
+
+.post-comments {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }

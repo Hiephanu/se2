@@ -23,7 +23,11 @@ public class UserDto {
         this.username = username;
         this.age = age;
         this.address = address;
-        this.avatar = avatar;
+        if(avatar != null) {
+            this.avatar = avatar;
+        } else {
+            this.avatar = "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg";
+        }
         this.password = password;
     }
 

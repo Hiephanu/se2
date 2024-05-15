@@ -225,6 +225,7 @@
             newPostElement.className = 'post'
             newPostElement.innerHTML = `
                     <input type="hidden" value="${post.postId}" class="post__id">
+                    <input type="hidden" value="${post.user.userId}" class="user__id">
                     <div class="post__header">
                         <div class="post__header__left">
                             <img src="${post.user.avatar}"
@@ -429,6 +430,9 @@
                                 renderComment(postId, commentSection)
                                 contentInputEl.value = ""
                                 // Do something with the response data if needed
+                            })
+                            .then(() => {
+                                sendHanller()
                             })
                             .catch(error => {
                                 console.error('There was a problem with the fetch operation:', error);

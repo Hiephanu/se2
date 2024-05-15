@@ -21,7 +21,7 @@ const previewImage = () => {
 }
 
 postModalTrigger.addEventListener("focus", () => {
-    postModal.style.display = "block";
+    postModal.style.display = "flex";
     previewImage()
 })
 
