@@ -16,6 +16,7 @@ body {
 .post__container{
     display:flex;
     justify-content:center;
+    width: 100%;
 }
 .posts{
     width: 50%;
