@@ -25,19 +25,21 @@
         <div class="modal-content">
             <div style="display: flex; ">
                 <div class="avatar">
-                    <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg"  alt="User Avatar">
+                    <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg" alt="User Avatar">
                 </div>
-                
+
                 <div style="flex: 1">
                     <div>
-                        <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]</p>
+                        <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]
+                        </p>
                     </div>
-        
+
                     <form th:action="@{/post/create}" enctype="multipart/form-data" th:object="${savePostRequestDto}"
                         method="post" class="threads-form">
-                        <input th:field="*{content}" type="text" id="fullName" placeholder="Start your threads..." class="start-threads-input" style="word-break: break-word;"/>
+                        <input th:field="*{content}" type="text" id="fullName" placeholder="Start your threads..."
+                            class="start-threads-input" style="word-break: break-word;" />
                         <!-- <textarea th:field="*{content}" type="text" id="fullName" placeholder="Start your threads..." class="start-threads-input"></textarea> -->
-                        
+
                         <div class="custom-file-input">
                             <input type="file" id="file" name="file" th:field="${savePostRequestDto.multipartFile}" />
                             <label for="fileInput">
@@ -46,7 +48,7 @@
                         </div>
 
                         <div class="preview">
-                            <img/>
+                            <img />
                         </div>
                         <div class="modal-button-wrapper">
                             <button class="post-btn submit button" type="submit">Post</button>
@@ -65,7 +67,7 @@
 
         <div class="start-threads-section">
             <div class="user-avatar">
-                <img th:src = ${user.getUserAvatar()} alt="" width="40" height="40">
+                <img th:src=${user.getUserAvatar()} alt="" width="40" height="40">
             </div>
 
             <div class="input">
@@ -147,7 +149,7 @@
                                         </div>
                             
                                         <form class="comment-form" th:action="@{/comment/create}" method="post" id={}>
-                                            <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
+                                            <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea>
                                             <input name="content" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
                                             <input type="submit" value="Reply" class="button">
                                         </form>
@@ -174,8 +176,8 @@
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')
-    const sendHanller = (userId, content,notificationType, origin, postId) => {
-        stompClient.send(userChannel, {}, JSON.stringify({ userId: userId, content: content,notificationType: notificationType, origin:origin, postId: postId}))
+    const sendHanller = (userId, content, notificationType, origin, postId) => {
+        stompClient.send(userChannel, {}, JSON.stringify({ userId: userId, content: content, notificationType: notificationType, origin: origin, postId: postId }))
     }
 
     var stompClient = null
@@ -186,7 +188,7 @@
     const userChannel = "/user/" + user.id + '/notification'
     stompClient.connect({}, function (frame) {
         stompClient.subscribe(userChannel, function (result) {
-            console.log("hi");
+
         })
     })
 
@@ -204,12 +206,12 @@
 
     //save notification
     const saveNotification = async (notification) => {
-        const res= await fetch(`http://localhost:8080/notification`, {
+        const res = await fetch(`http://localhost:8080/notification`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body : JSON.stringify(notification)
+            body: JSON.stringify(notification)
         })
         return res.json()
     }
@@ -218,6 +220,8 @@
         const post = await fetch(`http://localhost:8080/post/${id}/get`)
         return post.json()
     }
+
+    //get comment by id post
     const addNewsPost = (newPosts) => {
         newPosts.forEach(post => {
             console.log(post)
@@ -320,7 +324,7 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
-            if (index >= skip ) {
+            if (index >= skip) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
 
@@ -335,6 +339,7 @@
                 if (check) {
                     heartEl.classList.add('heart_active')
                 }
+                
                 const postGet = await getPostById(postId)
                 //handle heart and unheart
                 heartEl.addEventListener("click", async () => {
@@ -371,12 +376,12 @@
                         if (resHeart.ok) {
                             const heart = await getHeartPostById(postId)
                             heartNumber.textContent = heart.length + ' hearts'
-                            const ress=  await saveNotification({
-                                userId : postGet.user.id,
-                                origin : user.id,
-                                notificationType : "HEART",
+                            const ress = await saveNotification({
+                                userId: postGet.user.id,
+                                origin: user.id,
+                                notificationType: "HEART",
                                 content: `${user.fullName} heart your thread!`,
-                                postId : postGet.postId
+                                postId: postGet.postId
                             })
                             sendHanller(postGet.user.id, `${user.fullName} heart your thread!`, "HEART", user.id, postGet.postId)
                         }
@@ -393,7 +398,7 @@
                 const replyWrapper = post.querySelector('.reply__wrapper')
                 const replyX = post.querySelector('.reply__x__icon')
                 const commentSection = post.querySelector(".post-comments")
-                
+
                 reply.addEventListener("click", () => {
                     renderComment(postId, commentSection)
                 })
@@ -485,21 +490,28 @@
                             </div>
                         </div>
                     </div>`;
-                
+
                 html += commentDOM;
             });
-            
+
             return html;
         };
-        
+
         fetch(`/post/${postId}`)
             .then(res => res.json())
             .then(data => {
-                genComments(data).then(html => {commentSection.innerHTML = html})
+                genComments(data).then(html => { commentSection.innerHTML = html })
             })
             .catch(err => console.log(err))
     }
 
+    getPostByPage(0, 5)
+        .then(posts => {
+            addNewsPost(posts)
+        })
+        .catch(error => {
+            console.error('Error fetching posts:', error);
+        });
     //infinitive scrool
     window.addEventListener('scroll', () => {
         let scrollPositon = window.scrollY || document.documentElement.scrollTop
