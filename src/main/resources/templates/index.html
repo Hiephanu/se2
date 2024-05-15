@@ -155,7 +155,7 @@
 
     var socket = new SockJS('/ws')
     stompClient = Stomp.over(socket)
-    const userChannel = "/user/" + userId + '/notification'
+    const userChannel = "/user/" + user.id + '/notification'
     stompClient.connect({}, function (frame) {
         stompClient.subscribe(userChannel, function (result) {
             show(JSON.parse(result.body))
