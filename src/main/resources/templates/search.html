@@ -35,7 +35,8 @@
     }
 
     .search {
-        width: 60%;
+        width: 55%;
+        margin-top: 30px;
     }
 
     .search_input {
@@ -121,6 +122,13 @@
         background-color: black;
         color: white;
     }
+
+    .search_result_init {
+        text-align: center;
+        font-size: 20px;
+        color: gray;
+        margin-top: 50px;
+    }
 </style>
 <script th:inline="javascript">
     var userCurrent = /*[[${user}]]*/ null;
@@ -151,12 +159,12 @@
     //save follow 
     const saveFollow = async (followerId, followedId) => {
         try {
-            const res =  await fetch(`http://localhost:8080/follow` , {
+            const res = await fetch(`http://localhost:8080/follow`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body : JSON.stringify({
+                body: JSON.stringify({
                     followerId: followerId,
                     followedId: followedId
                 })
@@ -172,6 +180,15 @@
         const searchResultContainer = document.querySelector('.search_result');
 
         searchResultContainer.innerHTML = '';
+
+
+        if (users.length === 0) {
+            searchResultContainer.innerHTML = ` 
+                    <div class="search_result_init">
+                        <p>User may not be existed!</p>
+                    <div>`;
+            return;
+        }
 
         users.forEach(async (user) => {
             const userElement = document.createElement('div');
@@ -204,18 +221,25 @@
             if (check) {
                 followButton.classList.add('followed')
             }
-            followButton.addEventListener('click',async () => {
+            followButton.addEventListener('click', async () => {
                 const followerId = userCurrent.id
                 const followedId = user.id
-                const res =await saveFollow(followerId, followedId)
-                if(res) {
+                const res = await saveFollow(followerId, followedId)
+                if (res) {
                     followButton.classList.add('followed')
-                } 
+                }
             });
             searchResultContainer.appendChild(userElement);
         });
     }
 
+    //init
+    const result = document.querySelector('.search_result')
+    result.innerHTML = `
+                    <div class="search_result_init">
+                        <p>Enter input to explore a new user</p>
+                    <div>
+                `
 
     // debounce show user
     searchInput.addEventListener('input', () => {
@@ -232,7 +256,11 @@
                 }
             } else {
                 const result = document.querySelector('.search_result')
-                result.innerHTML(`Can not find user with keyword "${keyword}" `)
+                result.innerHTML = `
+                    <div class="search_result_init">
+                        <p>Enter input to explore a new user</p>
+                    <div>
+                `
             }
         }, 800);
     });
