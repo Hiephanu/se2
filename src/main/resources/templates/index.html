@@ -101,7 +101,7 @@
     const userChannel = "/user/" + user.id + '/notification'
     stompClient.connect({}, function (frame) {
         stompClient.subscribe(userChannel, function (result) {
-            console.log("hi");
+
         })
     })
 
@@ -274,6 +274,7 @@
                 if (check) {
                     heartEl.classList.add('heart_active')
                 }
+                
                 const postGet = await getPostById(postId)
                 //handle heart and unheart
                 heartEl.addEventListener("click", async () => {

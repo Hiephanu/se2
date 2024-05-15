@@ -95,6 +95,29 @@ public class LoginController {
 //        return "userProfileEdit";
 //    }
 
+//    @PostMapping("/userProfile/edit/updated/{id}")
+//    public String updateUserProfile(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+//        if (result.hasErrors()) {
+//            model.addAttribute("messageError", "Invalid value: Full name must be 3 to 20 characters. Age must be between 16 and 100.");
+//            return "userProfileEdit";
+//        }
+//
+//        userService.update(user);
+//        model.addAttribute("message","Updated user information successfully");
+//
+//        return "userProfileEdit";
+//    }
+
+    @GetMapping("/userProfile/followers/{id}")
+    public String getFollowers(@PathVariable long id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
+        return  "userProfileFollower";
+    }
+    @GetMapping("/userProfile/following/{id}")
+    public String getFollowing(@PathVariable long id, Model model) {
+        model.addAttribute("user", userService.findUserById(id));
+        return  "userProfileFollowing";
+    }
     @PostMapping("/userProfile/edit/updated/{id}")
     public String updateUserProfile(@Valid @ModelAttribute UserUpdateDto userUpdateDto, @PathVariable Long id, BindingResult result, Model model){
         if (result.hasErrors()) {

@@ -19,15 +19,31 @@
 <body>
     <div th:replace="~{fragments/header :: header}"></div>
     <div class="notification">
-        <p class="">Notification</p>
+        <p class="notification-title">Notification</p>
         <div class="result">
-
         </div>
     </div>
 </body>
+<style>
+    .notification-title {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .notification-item {
+        border: 1px solid #ccc;
+        width: 40%;
+        margin: auto;
+        background-color: #f2f2f2;
+        padding: 10px 20px 10px 20px;
+        margin-bottom: 8px;
+        border-radius: 15px;
+    }
+
+</style>
 <script th:inline="javascript">
     var user = /*[[${user}]]*/ null;
-    console.log(user);
     var stompClient = null;
     var privateStompClient = null;
     const result = document.querySelector('.result');
@@ -53,26 +69,24 @@
         result.innerHTML = '';
         notiArr.forEach(notification => {
             const notificationElement = document.createElement('div');
-            notificationElement.textContent = notification.content; 
+            notificationElement.textContent = notification.content;
+            notificationElement.classList.add('notification-item'); // Thêm class .notification-item
             result.appendChild(notificationElement);
         });
     };
 
-    // Thiết lập WebSocket
-    const socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
     const userChannel = `/user/${user.id}/notification`;
 
+    var socket = new SockJS('/ws')
+    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
         stompClient.subscribe(userChannel, function (message) {
             const notification = JSON.parse(message.body);
             notiArr = [...notiArr, notification];
-            displayNotifications(); 
+            displayNotifications();
         });
     });
 
-    // Gọi hàm để lấy tất cả thông báo khi tải trang
     document.addEventListener('DOMContentLoaded', async () => {
         notiArr = await getAllNotification();
         displayNotifications();
