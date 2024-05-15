@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-  <div th:fragment="header" class="header__wrapper">
+    <div th:fragment="header" class="header__wrapper">
         <div class="header">
             <div class="">
                 <img src="https://inkythuatso.com/uploads/images/2021/11/logo-twitter-inkythuatso-2-01-27-10-02-43.jpg" alt="Logo" class="header__logo">
             </div>
             <nav class="header__nav">
-                <a href="/" class="header__active header__nav__item">
+                <a href="/" class="header__nav__item">
                     <div>
                         <i class="nav_item fa-solid fa-house"></i>
                     </div>
@@ -21,12 +21,12 @@
                         <i class="nav_item fa-solid fa-magnifying-glass"></i>
                     </div>
                 </a>
-                <a href="/heart" class="header__nav__item">
+                <a href="/notification" class="header__nav__item">
                     <div>
-                        <i class="nav_item fa-solid fa-heart"></i>
+                        <i class="fa-regular fa-bell"></i>
                     </div>
                 </a>
-                <a th:href="'/userProfile/' + ${user.id}" class="header__nav__item">
+                <a th:href="'/userProfile/' + ${user.id}" class="header__nav__item" >
                     <div>
                         <i class="nav_item fa-solid fa-user"></i>
                     </div>
@@ -40,6 +40,6 @@
                 </div>
             </div>
         </div>
-  </div>
+    </div>
 </body>
 </html>

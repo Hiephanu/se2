@@ -45,3 +45,6 @@ a:hover{
     width:10px;
     height:10px
 }
+.active {
+    color: black;
+}
