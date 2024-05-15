@@ -22,6 +22,14 @@ public class PostRestController {
       }
     }
 
+    @GetMapping("/{id}/get")
+    public ResponseEntity<?> getPostById(@PathVariable long id) {
+        try {
+           return ResponseEntity.ok(postService.getPostById(id));
+        } catch (Exception e) {
+            return  ResponseEntity.status(500).body("Internal error");
+        }
+    }
     @GetMapping("/{id}/follow")
     public ResponseEntity<?> getPostByUserFollow(@PathVariable("id") long id,
                                                  @RequestParam(defaultValue = "0") int page,

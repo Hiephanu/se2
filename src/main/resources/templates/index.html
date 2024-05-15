@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script src="http://localhost:35729/"></script>
     <script th:src="@{/js/modal.js}" defer></script>
+    <script th:src="@{/js/header.js}" defer></script>
 </head>
 
 <body>
@@ -57,10 +58,10 @@
         </div>
     </div>
     <div class="container">
-        <div class="swap">
-            <p>Dành cho bạn</p>
+        <a class="swap">
+            <p>For you</p>
             <i class="fa-solid fa-shuffle"></i>
-        </div>
+        </a>
 
         <div class="start-threads-section">
             <div class="user-avatar">
@@ -166,43 +167,26 @@
             </div>
         </div>
     </div>
-    <div class="message">
-
-    </div>
-    <button class="send">
-        Send
-    </button>
     </div>
 </body>
 <script th:inline="javascript">
-     /*<![CDATA[*/
-        var user = /*[[${user}]]*/ null;
-        console.log(user)
-    /*]]>*/
-    var userId = 1;
-    console.log(user);
+    var user = /*[[${user}]]*/ null;
     // connect websocket to show notification
     const mess = document.querySelector('.message')
     const send = document.querySelector('.send')
-    const sendHanller = (id, content) => {
-        stompClient.send(userChannel, {}, JSON.stringify({ id: id, content: content }))
+    const sendHanller = (userId, content,notificationType, origin, postId) => {
+        stompClient.send(userChannel, {}, JSON.stringify({ userId: userId, content: content,notificationType: notificationType, origin:origin, postId: postId}))
     }
-    send.addEventListener('click', () => {
-        sendHanller()
-    })
 
-    const show = (m) => {
-        mess.textContent = m
-    }
     var stompClient = null
     var privateStompClient = null
 
     var socket = new SockJS('/ws')
     stompClient = Stomp.over(socket)
-    const userChannel = "/user/" + userId + '/notification'
+    const userChannel = "/user/" + user.id + '/notification'
     stompClient.connect({}, function (frame) {
         stompClient.subscribe(userChannel, function (result) {
-            show(JSON.parse(result.body))
+            console.log("hi");
         })
     })
 
@@ -218,6 +202,22 @@
         return posts.json()
     }
 
+    //save notification
+    const saveNotification = async (notification) => {
+        const res= await fetch(`http://localhost:8080/notification`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(notification)
+        })
+        return res.json()
+    }
+    //get post by id
+    const getPostById = async (id) => {
+        const post = await fetch(`http://localhost:8080/post/${id}/get`)
+        return post.json()
+    }
     const addNewsPost = (newPosts) => {
         newPosts.forEach(post => {
             console.log(post)
@@ -320,7 +320,7 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
-            if (index > skip ) {
+            if (index >= skip ) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
 
@@ -335,7 +335,7 @@
                 if (check) {
                     heartEl.classList.add('heart_active')
                 }
-
+                const postGet = await getPostById(postId)
                 //handle heart and unheart
                 heartEl.addEventListener("click", async () => {
                     let resHeart;
@@ -346,13 +346,15 @@
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
-                                userId: 1,
+                                userId: user.id,
                                 postId: postId
                             })
                         })
                         if (resHeart.ok) {
                             const heart = await getHeartPostById(postId)
                             heartNumber.textContent = heart.length + ' hearts'
+                            const userPost = await fetch(`http://localhost:8080/user/${post.userId}`)
+                            sendHanller(user.id,)
                         }
                     }
                     else {
@@ -362,14 +364,21 @@
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
-                                userId: 1,
+                                userId: user.id,
                                 postId: postId
                             })
                         })
                         if (resHeart.ok) {
                             const heart = await getHeartPostById(postId)
                             heartNumber.textContent = heart.length + ' hearts'
-                            sendHanller(userId, "Heart your threads!")
+                            const ress=  await saveNotification({
+                                userId : postGet.user.id,
+                                origin : user.id,
+                                notificationType : "HEART",
+                                content: `${user.fullName} heart your thread!`,
+                                postId : postGet.postId
+                            })
+                            sendHanller(postGet.user.id, `${user.fullName} heart your thread!`, "HEART", user.id, postGet.postId)
                         }
                     }
                     if (resHeart.ok) {
