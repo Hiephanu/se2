@@ -1,6 +1,7 @@
 package com.example.se2.comment.model.dto;
 
 import com.example.se2.comment.model.entity.Comment;
+import com.example.se2.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

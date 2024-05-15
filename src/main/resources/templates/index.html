@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/header.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/home.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/modal.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -21,15 +22,38 @@
     <div id="postModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <form th:action="@{/post/create}" enctype="multipart/form-data" th:object="${savePostRequestDto}"
-                method="post">
-                <label for="fullName">Full Name:</label>
-                <input th:field="*{content}" type="text" id="fullName" />
-                <label for="file">Choose file to upload</label>
-                <input type="file" id="file" name="file" th:field="${savePostRequestDto.multipartFile}" />
-                <button class="post-btn submit" type="submit">Create</button>
-                <button class="post-btn cancel">Cancel</button>
-            </form>
+            <div style="display: flex; ">
+                <div class="avatar">
+                    <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg"  alt="User Avatar">
+                </div>
+                
+                <div style="flex: 1">
+                    <div>
+                        <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]</p>
+                    </div>
+        
+                    <form th:action="@{/post/create}" enctype="multipart/form-data" th:object="${savePostRequestDto}"
+                        method="post" class="threads-form">
+                        <input th:field="*{content}" type="text" id="fullName" placeholder="Start your threads..." class="start-threads-input" style="word-break: break-word;"/>
+                        <!-- <textarea th:field="*{content}" type="text" id="fullName" placeholder="Start your threads..." class="start-threads-input"></textarea> -->
+                        
+                        <div class="custom-file-input">
+                            <input type="file" id="file" name="file" th:field="${savePostRequestDto.multipartFile}" />
+                            <label for="fileInput">
+                                <img src="https://www.svgrepo.com/show/517020/image-combiner.svg" alt="Upload Image">
+                            </label>
+                        </div>
+
+                        <div class="preview">
+                            <img/>
+                        </div>
+                        <div class="modal-button-wrapper">
+                            <button class="post-btn submit button" type="submit">Post</button>
+                            <button class="post-btn cancel button">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -37,23 +61,26 @@
             <p>Dành cho bạn</p>
             <i class="fa-solid fa-shuffle"></i>
         </div>
-        <div class="post__container">
-            <div class="post">
-                <div class="hello_user">
-                    <h1>Em chào đại ca <span>[[${user.getFullName()}]]</span> ạ !</h1>
-                    <input th:type="text" class="post-modal-trigger" placeholder="Ngày hôm nay của đại ca thế nào ?">
-                </div>
+
+        <div class="start-threads-section">
+            <div class="user-avatar">
+                <img th:src = ${user.getUserAvatar()} alt="" width="40" height="40">
+            </div>
+
+            <div class="input">
+                <input th:type="text" class="post-modal-trigger" placeholder="Start your threads...">
             </div>
         </div>
+
         <div class="post__container">
             <div class="posts">
                 <div th:each="post: ${posts}" class="post">
                     <input type="hidden" th:value="${post.postId}" class="post__id">
                     <div class="post__header">
                         <div class="post__header__left">
-                            <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
+                            <img th:src="${post.user.avatar}"
                                 alt="" class="post__header__left__avatar">
-                            <p>Đoàn Hiệp</p>
+                            <p class="username" th:text = "${post.user.fullName}"></p>
                         </div>
                         <div class="post__header__right">
                             <p>1 giờ</p>
@@ -93,7 +120,7 @@
                                 <div class="post__header__left">
                                     <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
                                         alt="" class="post__header__left__avatar">
-                                    <p>Đoàn Hiệp</p>
+                                    <p class="username">Đoàn Hiệp</p>
                                 </div>
                                 <div class="post__header__right">
                                     <p>1 giờ</p>
@@ -107,18 +134,31 @@
                                 <img th:src="${post.image}" alt="" class="post__content__image">
                             </div>
 
+                            <div class="comment-form-wrapper">
+                                <div style="display: flex; ">
+                                    <div class="avatar">
+                                        <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg"  alt="User Avatar">
+                                    </div>
+                                    
+                                    <div style="flex: 1">
+                                        <div>
+                                            <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]</p>
+                                        </div>
+                            
+                                        <form class="comment-form" th:action="@{/comment/create}" method="post" id={}>
+                                            <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
+                                            <input name="content" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
+                                            <input type="submit" value="Reply" class="button">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="post-comments">
 
                             </div>
 
-                            <div class="comment-form-wrapper">
-                                <form class="comment-form" th:action="@{/comment/create}"
-                                    th:object="${commentRequestDto}" method="post" id={}>
-                                    <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
-                                    <input th:field="*{content}" type="text" id="content" class="comment-content" />
-                                    <input type="submit" value="Submit">
-                                </form>
-                            </div>
+                            
 
                         </div>
                     </div>
@@ -135,7 +175,10 @@
     </div>
 </body>
 <script th:inline="javascript">
-    var user = /*[[${user}]]*/ null;
+     /*<![CDATA[*/
+        var user = /*[[${user}]]*/ null;
+        console.log(user)
+    /*]]>*/
     var userId = 1;
     console.log(user);
     // connect websocket to show notification
@@ -163,6 +206,7 @@
         })
     })
 
+
     const body = document.querySelector('body')
     const postContainer = document.querySelector('.post__container')
     let listPost = []
@@ -176,15 +220,16 @@
 
     const addNewsPost = (newPosts) => {
         newPosts.forEach(post => {
+            console.log(post)
             const newPostElement = document.createElement('div');
             newPostElement.className = 'post'
             newPostElement.innerHTML = `
                     <input type="hidden" value="${post.postId}" class="post__id">
                     <div class="post__header">
                         <div class="post__header__left">
-                            <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
+                            <img src="${post.user.avatar}"
                                 alt="" class="post__header__left__avatar">
-                            <p>Đoàn Hiệp</p>
+                            <p class="username">${post.user.fullName}</p>
                         </div>
                         <div class="post__header__right">
                             <p>1 giờ</p>
@@ -194,7 +239,7 @@
                         </div>
                     </div>
                     <div class="post__content">
-                        <p class="post__content__title" text="${post.content}"></p>
+                        <p class="post__content__title">${post.content}</p>
                         <img src="${post.image}" alt="" class="post__content__image">
                     </div>
                     <div class="post__react">
@@ -217,6 +262,54 @@
                             <p>.</p>
                             <p class="heart__number"></p>
                         </div>
+
+                        <div class="reply__wrapper disable">
+                        <div class="reply">
+                            <div class="post__header">
+                                <div class="post__header__left">
+                                    <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
+                                        alt="" class="post__header__left__avatar">
+                                    <p class="username">Đoàn Hiệp</p>
+                                </div>
+                                <div class="post__header__right">
+                                    <p>1 giờ</p>
+                                    <div class="reply__x__icon">
+                                        <i class="fa-solid fa-x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post__content">
+                                <p class="post__content__title">${post.content}</p>
+                                <img src="${post.image}" alt="" class="post__content__image">
+                            </div>
+
+                            <div class="comment-form-wrapper">
+                                <div style="display: flex; ">
+                                    <div class="avatar">
+                                        <img src="${user.userAvatar}"  alt="User Avatar">
+                                    </div>
+                                    
+                                    <div style="flex: 1">
+                                        <div>
+                                            <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">${user.userEntity.fullName}</p>
+                                        </div>
+
+                                        <div class="comment-form-wrapper">
+                                            <form class="comment-form" th:action="@{/comment/create}"
+                                                method="post" id="commentForm">
+                                                <input name="content" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
+                                                <input type="submit" value="Reply" class="button">
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-comments">
+
+                            </div>
+                        </div>
+                    </div>
                     </div>
             `;
             document.querySelector('.posts').appendChild(newPostElement);
@@ -227,7 +320,7 @@
     const handlePostAction = (skip) => {
         const posts = document.querySelectorAll('.post')
         posts.forEach(async (post, index) => {
-            if (index > skip) {
+            if (index > skip ) {
                 const postId = post.querySelector('.post__id').getAttribute('value')
                 const heartNumber = post.querySelector('.heart__number')
 
@@ -291,9 +384,11 @@
                 const replyWrapper = post.querySelector('.reply__wrapper')
                 const replyX = post.querySelector('.reply__x__icon')
                 const commentSection = post.querySelector(".post-comments")
-                reply.addEventListener('click', () => {
+                
+                reply.addEventListener("click", () => {
                     renderComment(postId, commentSection)
                 })
+
                 reply.addEventListener('click', () => {
                     replyWrapper.classList.toggle('disable')
                     body.classList.toggle('close__scroll')
@@ -309,11 +404,15 @@
                 commentForm.addEventListener("submit", (event) => {
                     event.preventDefault()
                     const contentInputEl = commentForm.querySelector("#content")
-                    console.log(contentInputEl)
 
                     if (contentInputEl.value.length > 0) {
                         const formData = new FormData(commentForm);
                         formData.append("postId", postId)
+
+                        for (const pair of formData.entries()) {
+                            console.log(pair[0], pair[1]);
+                        }
+
 
                         fetch('/comment/create', {
                             method: 'POST',
@@ -329,7 +428,6 @@
                             .then(data => {
                                 renderComment(postId, commentSection)
                                 contentInputEl.value = ""
-                                console.log('Comment saved:', data);
                                 // Do something with the response data if needed
                             })
                             .catch(error => {
@@ -345,32 +443,51 @@
 
     //handle comment
     const renderComment = (postId, commentSection) => {
-        const genComments = (commentList) => {
-            let html = ""
-            commentList.forEach((comment, index) => {
-                const commentDOM = ` <div class="comment-container">
-                                        <div class="comment-content">
-                                            <div class="avatar">
-                                                <img src="https://buffer.com/library/content/images/2023/10/free-images.jpg" alt="User Avatar">
-                                            </div>
-                                            <div class="comment-details">
-                                                <div class="user-name">John Doe</div>
-                                                <div class="comment-text">${comment.content}</div>
-                                                <div class="timestamp">Posted 1 hour ago</div>
-                                            </div>
-                                        </div>
-                                    </div>`
-                html += commentDOM
-            })
-            return html
-        }
+        const genComments = async (commentList) => {
+            let newCommentList = [...commentList];
 
+            // Create an array of fetch promises
+            const fetchPromises = newCommentList.map((comment, index) =>
+                fetch(`/user/${comment.userId}`)
+                    .then(res => res.json())
+                    .then(user => {
+                        newCommentList[index].user = user;
+                    })
+            );
+
+            // Wait for all fetch requests to complete
+            await Promise.all(fetchPromises);
+
+            let html = "";
+            newCommentList.forEach(comment => {
+                console.group();
+                console.log(comment.user);
+                console.groupEnd();
+
+                const commentDOM = `
+                    <div class="comment-container">
+                        <div class="comment-content">
+                            <div class="avatar">
+                                <img src="${comment.user.avatar}" alt="User Avatar">
+                            </div>
+                            <div class="comment-details">
+                                <div class="user-name">${comment.user.username}</div>
+                                <div class="comment-text">${comment.content}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                
+                html += commentDOM;
+            });
+            
+            return html;
+        };
+        
         fetch(`/post/${postId}`)
             .then(res => res.json())
             .then(data => {
-                commentSection.innerHTML = genComments(data)
+                genComments(data).then(html => {commentSection.innerHTML = html})
             })
-
             .catch(err => console.log(err))
     }
 

@@ -4,6 +4,7 @@ import com.example.se2.comment.model.dto.CommentRequestDto;
 import com.example.se2.comment.model.entity.Comment;
 import com.example.se2.comment.service.CommentService;
 import com.example.se2.post.model.dto.SavePostRequestDto;
+import com.example.se2.user.model.User;
 import com.example.se2.user.service.CustomUserDetail;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,9 @@ public class CommentController {
         if(!result.hasErrors()) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
-            Long userId = customUserDetail.getUserId();
-            System.out.println(commentRequestDto.getPostId());
+            User user = customUserDetail.getUserEntity();
             Comment comment = new Comment();
-            comment.setUserId(1);
+            comment.setUserId(user.getId());
             comment.setContent(commentRequestDto.getContent());
             comment.setPostId(commentRequestDto.getPostId());
 

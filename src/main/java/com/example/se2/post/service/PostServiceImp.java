@@ -8,10 +8,15 @@ import com.example.se2.post.model.dto.PostDto;
 import com.example.se2.post.model.dto.SavePostRequestDto;
 import com.example.se2.post.model.entity.PostEntity;
 import com.example.se2.post.repository.PostRepository;
+import com.example.se2.user.model.User;
+import com.example.se2.user.service.CustomUserDetail;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,12 +50,23 @@ public class PostServiceImp implements PostService {
 
     @Override
     public PostEntity savePost(SavePostRequestDto savePostRequestDto) {
-//        PostEntity postEntity = convertPost.convertToPostEntity(savePostRequestDto);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
+        User user = customUserDetail.getUserEntity();
+
         PostEntity postEntity = new PostEntity();
-        Object url = cloudinaryService.upload(savePostRequestDto.getMultipartFile());
-        postEntity.setContent(savePostRequestDto.getContent());
-        postEntity.setImage(url.toString());
-//        return postRepository.save(convertPost.convertToPostEntity(savePostRequestDto));
+        try {
+            Object url = cloudinaryService.upload(savePostRequestDto.getMultipartFile());
+            postEntity.setContent(savePostRequestDto.getContent());
+            postEntity.setImage(url.toString());
+            postEntity.setUser(user);
+        } catch (RuntimeException e) {
+            postEntity.setContent(savePostRequestDto.getContent());
+            postEntity.setImage("");
+            postEntity.setUser(user);
+        }
+
         return postRepository.save(postEntity);
     }
     @Override

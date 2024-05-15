@@ -14,6 +14,7 @@ import com.sun.tools.jconsole.JConsoleContext;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -43,12 +44,18 @@ public class PostController {
     private UserService userService;
     
     @PostMapping("/post/create")
-    public String createPost(@ModelAttribute SavePostRequestDto savePostRequestDto, BindingResult result) {
-        if(!result.hasErrors()) {
+    public String createPost(@ModelAttribute SavePostRequestDto savePostRequestDto, BindingResult result, Principal principal) {
+        try {
+            if(!result.hasErrors()) {
+                postService.savePost(savePostRequestDto);
+                return "redirect:/";
+            } else {
+                return "";
+            }
+        } catch (RuntimeException e) {
+            savePostRequestDto.setMultipartFile(null);
             postService.savePost(savePostRequestDto);
             return "redirect:/";
-        } else {
-            return "";
         }
 
     }

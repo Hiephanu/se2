@@ -48,6 +48,12 @@ public class CustomUserDetail implements UserDetails{
         this.user.setAvatar(avatar);
     }
 
+    public User getUserEntity() {
+        return this.user;
+    }
+    public String getUserAvatar() {
+        return user.getAvatar();
+    }
     public Long getUserId() {
         return user.getId();
     }
