@@ -71,14 +71,6 @@
                 <input th:type="text" class="post-modal-trigger" placeholder="Start your threads...">
             </div>
         </div>
-        <!-- <div class="post__container">
-            <div class="post">
-                <div class="hello_user">
-                    <h1>Em chào đại ca <span>[[${user.getFullName()}]]</span> ạ !</h1>
-                    <input th:type="text" class="post-modal-trigger" placeholder="Ngày hôm nay của đại ca thế nào ?">
-                </div>
-            </div>
-        </div> -->
 
         <div class="post__container">
             <div class="posts">
@@ -86,9 +78,9 @@
                     <input type="hidden" th:value="${post.postId}" class="post__id">
                     <div class="post__header">
                         <div class="post__header__left">
-                            <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
+                            <img th:src="${post.user.avatar}"
                                 alt="" class="post__header__left__avatar">
-                            <p class="username">Đoàn Hiệp</p>
+                            <p class="username" th:text = "${post.user.fullName}"></p>
                         </div>
                         <div class="post__header__right">
                             <p>1 giờ</p>
@@ -153,11 +145,10 @@
                                             <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]</p>
                                         </div>
                             
-                                        <form class="comment-form" th:action="@{/comment/create}"
-                                            th:object="${commentRequestDto}" method="post" id={}>
+                                        <form class="comment-form" th:action="@{/comment/create}" method="post" id={}>
                                             <!-- <textarea name="comment" id="comment" placeholder="Write your comment here..." required></textarea> -->
-                                            <input th:field="*{content}" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
-                                            <input type="submit" value="Submit" class="button">
+                                            <input name="content" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
+                                            <input type="submit" value="Reply" class="button">
                                         </form>
                                     </div>
                                 </div>
@@ -184,8 +175,10 @@
     </div>
 </body>
 <script th:inline="javascript">
-    var user = /*[[${user}]]*/ null;
-    var commentRequestDto = /*[[${commentRequestDto}]]*/ null
+     /*<![CDATA[*/
+        var user = /*[[${user}]]*/ null;
+        console.log(user)
+    /*]]>*/
     var userId = 1;
     // connect websocket to show notification
     const mess = document.querySelector('.message')
@@ -226,15 +219,16 @@
 
     const addNewsPost = (newPosts) => {
         newPosts.forEach(post => {
+            console.log(post)
             const newPostElement = document.createElement('div');
             newPostElement.className = 'post'
             newPostElement.innerHTML = `
                     <input type="hidden" value="${post.postId}" class="post__id">
                     <div class="post__header">
                         <div class="post__header__left">
-                            <img src="https://cdn.trangcongnghe.com.vn/uploads/posts/2023-08/1692861228_image.png"
+                            <img src="${post.user.avatar}"
                                 alt="" class="post__header__left__avatar">
-                            <p class="username">Đoàn Hiệp</p>
+                            <p class="username">${post.user.fullName}</p>
                         </div>
                         <div class="post__header__right">
                             <p>1 giờ</p>
@@ -296,16 +290,15 @@
                                     
                                     <div style="flex: 1">
                                         <div>
-                                            <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">[[${user.getFullName()}]]</p>
+                                            <p class="username" style="padding: 0; margin: 0; padding-left: 10px;">${user.userEntity.fullName}</p>
                                         </div>
 
                                         <div class="comment-form-wrapper">
                                             <form class="comment-form" th:action="@{/comment/create}"
-                                                th:object="${commentRequestDto}" method="post" id="commentForm">
-                                                <input th:field="*{content}" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
-                                                <input type="submit" value="Submit" class="button">
-                                            </form>
-                                            
+                                                method="post" id="commentForm">
+                                                <input name="content" type="text" id="content" class="comment-content start-threads-input" placeholder="Reply..."/>
+                                                <input type="submit" value="Reply" class="button">
+                                            </form> 
                                         </div>
                                     </div>
                                 </div>
@@ -413,8 +406,12 @@
 
                     if (contentInputEl.value.length > 0) {
                         const formData = new FormData(commentForm);
-
                         formData.append("postId", postId)
+
+                        for (const pair of formData.entries()) {
+                            console.log(pair[0], pair[1]);
+                        }
+
 
                         fetch('/comment/create', {
                             method: 'POST',
